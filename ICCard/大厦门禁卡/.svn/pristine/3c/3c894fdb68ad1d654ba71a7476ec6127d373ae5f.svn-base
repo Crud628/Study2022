@@ -16,7 +16,7 @@
         .wrap {
             display: -webkit-box;
             -webkit-box-orient: vertical;
-            /* -webkit-flex-flow: column; */
+            -webkit-flex-flow: column;
         }
 
         header {
@@ -31,7 +31,7 @@
 
         .flex-1 {
             -webkit-box-flex: 1;
-            /* -webkit-flex: 1; */
+            -webkit-flex: 1;
         }
 
         footer {
@@ -46,11 +46,11 @@
 </head>
 
 <body class="wrap">
-    <header>创业大厦门禁卡</header>
+    <header>APICloud</header>
     <section class="flex-1">
 
     </section>
-    <footer>Copyright © 辽ICP备2021007181号</footer>
+    <footer></footer>
 </body>
 <script type="text/javascript" src="./script/api.js"></script>
 <script type="text/javascript">
@@ -64,7 +64,7 @@
         // 3.沉浸式效果适配支持iOS7+，Android4.4+以上版本
         var headerH = $api.fixStatusBar(header);
         // 最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
-        var footerH = $api.fixTabBar(footer);
+        // var footerH = $api.fixTabBar(footer);
 
         api.openFrame({
             name: 'main',
