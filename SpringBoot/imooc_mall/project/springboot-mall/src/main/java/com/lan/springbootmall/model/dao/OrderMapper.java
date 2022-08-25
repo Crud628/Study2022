@@ -1,6 +1,6 @@
-package com.lan.mall.model.dao;
+package com.lan.springbootmall.model.dao;
 
-import com.imooc.mall.model.pojo.Order;
+import com.lan.springbootmall.model.pojo.Order;
 
 public interface OrderMapper {
     int deleteByPrimaryKey(Integer id);

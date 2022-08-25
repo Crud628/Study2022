@@ -1,6 +1,6 @@
-package com.lan.mall.model.dao;
+package com.lan.springbootmall.model.dao;
 
-import com.imooc.mall.model.pojo.Product;
+import com.lan.springbootmall.model.pojo.Product;
 
 public interface ProductMapper {
     int deleteByPrimaryKey(Integer id);

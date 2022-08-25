@@ -1,6 +1,6 @@
-package com.lan.mall.model.dao;
+package com.lan.springbootmall.model.dao;
 
-import com.imooc.mall.model.pojo.Category;
+import com.lan.springbootmall.model.pojo.Category;
 
 public interface CategoryMapper {
     int deleteByPrimaryKey(Integer id);

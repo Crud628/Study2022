@@ -1,4 +1,4 @@
-package com.imooc.mall.model.pojo;
+package com.lan.springbootmall.model.pojo;
 
 import java.util.Date;
 
