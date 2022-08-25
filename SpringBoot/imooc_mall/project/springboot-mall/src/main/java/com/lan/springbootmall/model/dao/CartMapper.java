@@ -1,10 +1,12 @@
 package com.lan.springbootmall.model.dao;
 
 import com.lan.springbootmall.model.pojo.Cart;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  */
+@Repository
 public interface CartMapper {
     int deleteByPrimaryKey(Integer id);
 

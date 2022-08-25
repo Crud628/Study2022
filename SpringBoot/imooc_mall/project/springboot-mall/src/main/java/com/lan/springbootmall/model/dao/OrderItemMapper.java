@@ -1,7 +1,7 @@
 package com.lan.springbootmall.model.dao;
 
 import com.lan.springbootmall.model.pojo.OrderItem;
-
+@Repository
 public interface OrderItemMapper {
     int deleteByPrimaryKey(Integer id);
 
