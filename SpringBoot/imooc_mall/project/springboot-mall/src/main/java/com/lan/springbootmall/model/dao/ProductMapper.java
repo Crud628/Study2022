@@ -1,6 +1,8 @@
 package com.lan.springbootmall.model.dao;
 
 import com.lan.springbootmall.model.pojo.Product;
+import org.springframework.stereotype.Repository;
+
 @Repository
 public interface ProductMapper {
     int deleteByPrimaryKey(Integer id);

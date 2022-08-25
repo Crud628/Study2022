@@ -1,5 +1,6 @@
 package com.lan.springbootmall.service;
 
+import com.lan.springbootmall.exception.MallException;
 import com.lan.springbootmall.model.pojo.User;
 
 /**
@@ -15,4 +16,11 @@ public interface UserService {
      * @return
      */
     User getUser();
+
+    /**
+     * 注册
+     * @param userName 用户名
+     * @param password 密码
+     */
+    void register(String userName, String password) throws MallException;
 }
