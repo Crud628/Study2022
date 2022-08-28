@@ -3,6 +3,8 @@ package com.lan.springbootmall.service;
 import com.lan.springbootmall.exception.MallException;
 import com.lan.springbootmall.model.pojo.User;
 
+import java.security.NoSuchAlgorithmException;
+
 /**
  * @author Keason
  * @Description: userService
@@ -22,5 +24,5 @@ public interface UserService {
      * @param userName 用户名
      * @param password 密码
      */
-    void register(String userName, String password) throws MallException;
+    void register(String userName, String password) throws MallException, NoSuchAlgorithmException;
 }

@@ -5,9 +5,12 @@ import com.lan.springbootmall.exception.MallExceptionEnum;
 import com.lan.springbootmall.model.pojo.User;
 import com.lan.springbootmall.model.dao.UserMapper;
 import com.lan.springbootmall.service.UserService;
+import com.lan.springbootmall.util.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.security.NoSuchAlgorithmException;
 
 /**
  * @author Keason
@@ -26,7 +29,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void register(String userName, String password) throws MallException {
+    public void register(String userName, String password) throws MallException, NoSuchAlgorithmException {
         // 查询用户名是否存在，不允许重名
         User result = userMapper.selectByName(userName);
         if (!ObjectUtils.isEmpty(result)) {
@@ -36,7 +39,7 @@ public class UserServiceImpl implements UserService {
         // 写到数据库
         User user = new User();
         user.setUsername(userName);
-        user.setPassword(password);
+        user.setPassword(MD5Utils.getMD5Str(password));
         int count = userMapper.insertSelective(user);
         if (count == 0) {
             throw new MallException(MallExceptionEnum.INSERT_FAILED);
