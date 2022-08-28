@@ -1,5 +1,6 @@
 package com.lan.springbootmall.service.impl;
 
+import com.lan.springbootmall.common.Constants;
 import com.lan.springbootmall.exception.MallException;
 import com.lan.springbootmall.exception.MallExceptionEnum;
 import com.lan.springbootmall.model.pojo.User;
@@ -67,5 +68,10 @@ public class UserServiceImpl implements UserService {
         if (updateCount > 1) {
             throw new MallException(MallExceptionEnum.UPDATE_FAILED);
         }
+    }
+
+    @Override
+    public boolean checkAdminRole(User user) {
+        return user.getRole().equals(Constants.USER_ROLE_ADMIN);
     }
 }

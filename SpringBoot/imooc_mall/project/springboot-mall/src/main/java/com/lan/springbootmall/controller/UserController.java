@@ -97,10 +97,11 @@ public class UserController {
     }
 
     /**
+     * 更新个性签名
      *
      * @param session session
      * @param signature 签名
-     * @return
+     * @return 封装
      * @throws MallException
      */
     @PostMapping("/user/update")
@@ -115,6 +116,43 @@ public class UserController {
         user.setPersonalizedSingnature(signature);
         userService.updateInformation(user);
         return ApiRestResponse.success();
+    }
+
+    /**
+     * 注销
+     * @param session session
+     * @return 封装信息
+     */
+    @PostMapping("/user/logout")
+    @ResponseBody
+    public ApiRestResponse logout(HttpSession session) {
+        session.removeAttribute(Constants.SESSION_KEY_MALL_USER);
+        return ApiRestResponse.success();
+    }
+
+    /**
+     * 管理员登录
+     * @param userName 账号
+     * @param password 密码
+     * @return 用户信息
+     * @throws MallException 自定义异常
+     */
+    @PostMapping("/adminLogin")
+    @ResponseBody
+    public ApiRestResponse adminLogin(@RequestParam("username") String userName, @RequestParam("password")String password, HttpSession session) throws MallException{
+        // 用户账号密码格式检查
+        CheckUser(userName, password);
+        // 登录
+        User user = userService.login(userName, password);
+        if (userService.checkAdminRole(user)) {
+            // 是管理员，执行操作
+            // 保存用户信息时不保存密码
+            user.setPassword(null);
+            session.setAttribute(Constants.SESSION_KEY_MALL_USER, user);
+            return ApiRestResponse.success(user);
+        } else {
+            return ApiRestResponse.error(MallExceptionEnum.NEED_ADMIN);
+        }
     }
 
 }

@@ -36,9 +36,16 @@ public interface UserService {
     User login(String userName, String password) throws MallException;
 
     /**
-     * 更新
+     * 更新个性签名
      * @param user 用户信息
      * @throws MallException 自定义异常
      */
     void updateInformation(User user) throws MallException;
+
+    /**
+     * 管理员检测
+     * @param user 登录用户
+     * @return 是否是管理员
+     */
+    boolean checkAdminRole(User user);
 }

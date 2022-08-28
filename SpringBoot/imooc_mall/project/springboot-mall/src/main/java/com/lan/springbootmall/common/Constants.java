@@ -22,4 +22,14 @@ public class Constants {
   * 登录Session的KEY
   */
  public static final String SESSION_KEY_MALL_USER = "MALL_USER";
+
+ /**
+  * 用户角色：普通用户
+  */
+ public static final int USER_ROLE_UN_ADMIN = 1;
+
+ /**
+  * 用户角色：管理员用户
+  */
+ public static final int USER_ROLE_ADMIN = 2;
 }
