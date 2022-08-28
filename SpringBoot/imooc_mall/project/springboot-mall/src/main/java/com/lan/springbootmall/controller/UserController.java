@@ -96,4 +96,25 @@ public class UserController {
         }
     }
 
+    /**
+     *
+     * @param session session
+     * @param signature 签名
+     * @return
+     * @throws MallException
+     */
+    @PostMapping("/user/update")
+    @ResponseBody
+    public ApiRestResponse updateUserInfo(HttpSession session, @RequestParam String signature) throws MallException {
+        User currentUser = (User)session.getAttribute(Constants.SESSION_KEY_MALL_USER);
+        if (ObjectUtils.isEmpty(currentUser)) {
+            return ApiRestResponse.error(MallExceptionEnum.NEED_LOGIN);
+        }
+        User user = new User();
+        user.setId(currentUser.getId());
+        user.setPersonalizedSingnature(signature);
+        userService.updateInformation(user);
+        return ApiRestResponse.success();
+    }
+
 }

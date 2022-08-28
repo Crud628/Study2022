@@ -34,4 +34,11 @@ public interface UserService {
      * @throws MallException 自定义异常
      */
     User login(String userName, String password) throws MallException;
+
+    /**
+     * 更新
+     * @param user 用户信息
+     * @throws MallException 自定义异常
+     */
+    void updateInformation(User user) throws MallException;
 }

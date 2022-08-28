@@ -60,4 +60,12 @@ public class UserServiceImpl implements UserService {
         }
         return user;
     }
+
+    @Override
+    public void updateInformation(User user) throws MallException {
+        int updateCount = userMapper.updateByPrimaryKeySelective(user);
+        if (updateCount > 1) {
+            throw new MallException(MallExceptionEnum.UPDATE_FAILED);
+        }
+    }
 }
