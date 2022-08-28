@@ -1,6 +1,6 @@
 package com.lan.springbootmall.util;
 
-import com.lan.springbootmall.common.Constant;
+import com.lan.springbootmall.common.Constants;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.security.MessageDigest;
@@ -21,6 +21,6 @@ public class MD5Utils {
   */
  public static String getMD5Str(String StrValue) throws NoSuchAlgorithmException {
   MessageDigest md5 = MessageDigest.getInstance("MD5");
-  return Base64.encodeBase64String(md5.digest((StrValue + Constant.MD5_SALT).getBytes()));
+  return Base64.encodeBase64String(md5.digest((StrValue + Constants.MD5_SALT).getBytes()));
  }
 }

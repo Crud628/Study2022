@@ -25,4 +25,13 @@ public interface UserService {
      * @param password 密码
      */
     void register(String userName, String password) throws MallException, NoSuchAlgorithmException;
+
+    /**
+     * 登录
+     * @param userName 用户名
+     * @param password 密码
+     * @return 查询到的用户
+     * @throws MallException 自定义异常
+     */
+    User login(String userName, String password) throws MallException;
 }
