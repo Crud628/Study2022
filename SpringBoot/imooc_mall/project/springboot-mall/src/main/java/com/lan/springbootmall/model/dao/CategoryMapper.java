@@ -16,4 +16,12 @@ public interface CategoryMapper {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+
+    /**
+     * 根据名字查询
+     *
+     * @param name 传入名字
+     * @return 返回对象
+     */
+    Category selectByName(String name);
 }
