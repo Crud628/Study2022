@@ -36,4 +36,13 @@ public class ProductServiceImpl implements ProductService {
             throw new MallException(MallExceptionEnum.CREATE_FAILED);
         }
     }
+
+    @Override
+    public void update(Product updateProduct) {
+        Product productOld = productMapper.selectByName(updateProduct.getName());
+        // 同名且不同ID，不能继续修改
+        if (productOld != null && productOld.getId().equals(updateProduct.getId())) {
+            throw new MallException(MallExceptionEnum.NAME_EXISTED);
+        }
+    }
 }

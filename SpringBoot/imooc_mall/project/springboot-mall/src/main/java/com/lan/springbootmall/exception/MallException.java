@@ -5,7 +5,7 @@ package com.lan.springbootmall.exception;
  * @Description: 统一异常
  * @date 2022/8/26 0:03
  */
-public class MallException extends Exception{
+public class MallException extends RuntimeException{
     private final Integer code;
     private final String message;
 

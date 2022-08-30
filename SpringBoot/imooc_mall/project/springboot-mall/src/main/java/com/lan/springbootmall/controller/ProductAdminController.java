@@ -6,7 +6,10 @@ import com.lan.springbootmall.exception.MallException;
 import com.lan.springbootmall.exception.MallExceptionEnum;
 import com.lan.springbootmall.model.pojo.Product;
 import com.lan.springbootmall.model.request.AddProductReq;
+import com.lan.springbootmall.model.request.UpdateProductReq;
 import com.lan.springbootmall.service.ProductService;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,5 +90,19 @@ public class ProductAdminController {
             effectiveURI = null;
         }
         return effectiveURI;
+    }
+
+    /**
+     *
+     * @param updateProductReq
+     * @return
+     */
+    @ApiOperation("后台更新商品")
+    @PostMapping("/admin/product/update")
+    private ApiRestResponse updateProduct(@Valid @RequestBody UpdateProductReq updateProductReq) {
+        Product product = new Product();
+        BeanUtils.copyProperties(updateProductReq, product);
+        productService.update(product);
+        return ApiRestResponse.success();
     }
 }

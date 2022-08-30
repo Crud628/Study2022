@@ -1,6 +1,7 @@
 package com.lan.springbootmall.service;
 
 import com.lan.springbootmall.exception.MallException;
+import com.lan.springbootmall.model.pojo.Product;
 import com.lan.springbootmall.model.request.AddProductReq;
 
 /**
@@ -10,4 +11,6 @@ import com.lan.springbootmall.model.request.AddProductReq;
  */
 public interface ProductService {
     void add(AddProductReq addProductReq) throws MallException;
+
+    void update(Product updateProduct);
 }
