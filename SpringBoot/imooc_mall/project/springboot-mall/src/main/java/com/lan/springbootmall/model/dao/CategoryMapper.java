@@ -3,6 +3,8 @@ package com.lan.springbootmall.model.dao;
 import com.lan.springbootmall.model.pojo.Category;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CategoryMapper {
     int deleteByPrimaryKey(Integer id);
@@ -24,4 +26,17 @@ public interface CategoryMapper {
      * @return 返回对象
      */
     Category selectByName(String name);
+
+    /**
+     *
+     * @return
+     */
+    List<Category> selectList();
+
+    /**
+     *
+     * @param parentID
+     * @return
+     */
+    List<Category> selectCategoriesByParentID(Integer parentID);
 }

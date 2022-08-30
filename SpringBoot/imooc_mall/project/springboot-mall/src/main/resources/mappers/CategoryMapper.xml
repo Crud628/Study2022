@@ -119,4 +119,13 @@
     from tb_mall_category
     where name = #{name, jdbcType=VARCHAR}
   </select>
+  <select id="selectList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from tb_mall_category
+  </select>
+  <select id="selectCategoriesByParentID" parameterType="int" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from tb_mall_category
+    where parent_id = #{parentId}
+  </select>
 </mapper>
