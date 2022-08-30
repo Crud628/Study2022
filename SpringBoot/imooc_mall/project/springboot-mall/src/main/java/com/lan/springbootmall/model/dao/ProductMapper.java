@@ -16,4 +16,11 @@ public interface ProductMapper {
     int updateByPrimaryKeySelective(Product record);
 
     int updateByPrimaryKey(Product record);
+
+    /**
+     *
+     * @param Name
+     * @return
+     */
+    Product selectByName(String Name);
 }
