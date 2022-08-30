@@ -8,13 +8,17 @@ import com.lan.springbootmall.model.pojo.User;
 import com.lan.springbootmall.model.request.AddCategoryReq;
 import com.lan.springbootmall.service.CategoryService;
 import com.lan.springbootmall.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 /**
  * @author Keason
@@ -37,11 +41,12 @@ public class CategoryController {
      * @param addCategoryReq 简单品类对象
      * @return 统一返回对象
      */
+    @ApiOperation("后台添加目录")
     @PostMapping("admin/category/add")
     @ResponseBody
-    public ApiRestResponse addCategory(HttpSession session, AddCategoryReq addCategoryReq) throws MallException {
+    public ApiRestResponse addCategory(HttpSession session, @Valid @RequestBody AddCategoryReq addCategoryReq) throws MallException {
         // 数据为空检查
-        if (ObjectUtils.isEmpty(addCategoryReq.getNamne())
+        if (ObjectUtils.isEmpty(addCategoryReq.getName())
         || ObjectUtils.isEmpty(addCategoryReq.getType())
                 || ObjectUtils.isEmpty(addCategoryReq.getParentId())
         || ObjectUtils.isEmpty(addCategoryReq.getOrderNumber())) {

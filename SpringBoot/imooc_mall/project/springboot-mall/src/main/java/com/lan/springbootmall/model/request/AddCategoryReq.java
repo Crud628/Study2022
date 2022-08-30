@@ -1,4 +1,9 @@
 package com.lan.springbootmall.model.request;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * 
  * @author Keason
@@ -9,29 +14,35 @@ public class AddCategoryReq {
     /**
      * 类型名称
      */
-    private String namne;
+    @Size(min = 2, max = 5)
+    @NotNull(message = "name不能为null")
+    private String name;
 
     /**
-     * 类型
+     * 层级熟
      */
+    @NotNull(message = "type不能为null")
+    @Max(3)
     private Integer type;
 
     /**
      * 类型名称
      */
+    @NotNull(message = "parentId不能为null")
     private Integer parentId;
 
     /**
      * 编号
      */
+    @NotNull(message = "orderNumber不能为null")
     private Integer orderNumber;
 
-    public String getNamne() {
-        return namne;
+    public String getName() {
+        return name;
     }
 
-    public void setNamne(String namne) {
-        this.namne = namne;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getType() {

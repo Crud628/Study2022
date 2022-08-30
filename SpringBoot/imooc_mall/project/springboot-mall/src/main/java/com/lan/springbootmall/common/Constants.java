@@ -1,6 +1,7 @@
 package com.lan.springbootmall.common;
 
 import jdk.nashorn.internal.runtime.regexp.joni.ast.StringNode;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @author Keason
@@ -32,4 +33,11 @@ public class Constants {
   * 用户角色：管理员用户
   */
  public static final int USER_ROLE_ADMIN = 2;
+
+ public static String FILE_UPLOAD_DIR;
+
+ @Value("${file.upload.dir}")
+ public void setFileUploadDir(String fileUploadDir) {
+  FILE_UPLOAD_DIR = fileUploadDir;
+ }
 }

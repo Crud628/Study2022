@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
         Category category = new Category();
         // 相同字段复制
         BeanUtils.copyProperties(addCategoryReq, category);
-        Category categoryOld = categoryMapper.selectByName(addCategoryReq.getNamne());
+        Category categoryOld = categoryMapper.selectByName(addCategoryReq.getName());
         if (!ObjectUtils.isEmpty(categoryOld)) {
             throw new MallException(MallExceptionEnum.NAME_EXISTED);
         }
