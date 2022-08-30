@@ -46,6 +46,21 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
+
+    @Override
+    public void update(Category updateCategory) throws MallException {
+        if (updateCategory.getName() != null) {
+            Category categoryOld = categoryMapper.selectByName(updateCategory.getName());
+            if (categoryOld != null && !categoryOld.getId().equals(updateCategory.getId())) {
+                throw new MallException(MallExceptionEnum.NAME_EXISTED);
+            }
+        }
+        int count = categoryMapper.updateByPrimaryKeySelective(updateCategory);
+        if (count == 0) {
+            throw new MallException(MallExceptionEnum.UPDATE_FAILED);
+        }
+    }
+
     @Override
     public void delete(Integer id) throws MallException {
         Category category = categoryMapper.selectByPrimaryKey(id);
@@ -88,5 +103,7 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
     }
+
+
 
 }

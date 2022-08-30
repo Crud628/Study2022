@@ -5,13 +5,16 @@ import com.lan.springbootmall.common.ApiRestResponse;
 import com.lan.springbootmall.common.Constants;
 import com.lan.springbootmall.exception.MallException;
 import com.lan.springbootmall.exception.MallExceptionEnum;
+import com.lan.springbootmall.model.pojo.Category;
 import com.lan.springbootmall.model.pojo.User;
 import com.lan.springbootmall.model.request.AddCategoryReq;
+import com.lan.springbootmall.model.request.UpdateCategoryReq;
 import com.lan.springbootmall.model.vo.CategoryVO;
 import com.lan.springbootmall.service.CategoryService;
 import com.lan.springbootmall.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
@@ -67,6 +70,28 @@ public class CategoryController {
         boolean adminRole = userService.checkAdminRole(currentUser);
         if (adminRole) {
             categoryService.add(addCategoryReq);
+            return ApiRestResponse.success();
+        } else {
+            return ApiRestResponse.error(MallExceptionEnum.NEED_ADMIN);
+        }
+    }
+
+    @ApiOperation("后台更新目录")
+    @PostMapping("admin/category/update")
+    @ResponseBody
+    public ApiRestResponse updateCategory(@Valid @RequestBody UpdateCategoryReq updateCategoryReq,
+                                          HttpSession session) throws MallException {
+        User currentUser = (User) session.getAttribute(Constants.SESSION_KEY_MALL_USER);
+        if (currentUser == null) {
+            return ApiRestResponse.error(MallExceptionEnum.NEED_LOGIN);
+        }
+        //校验是否是管理员
+        boolean adminRole = userService.checkAdminRole(currentUser);
+        if (adminRole) {
+            //是管理员，执行操作
+            Category category = new Category();
+            BeanUtils.copyProperties(updateCategoryReq, category);
+            categoryService.update(category);
             return ApiRestResponse.success();
         } else {
             return ApiRestResponse.error(MallExceptionEnum.NEED_ADMIN);

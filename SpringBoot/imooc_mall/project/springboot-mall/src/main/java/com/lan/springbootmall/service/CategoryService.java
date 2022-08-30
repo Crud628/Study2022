@@ -2,6 +2,7 @@ package com.lan.springbootmall.service;
 
 import com.github.pagehelper.PageInfo;
 import com.lan.springbootmall.exception.MallException;
+import com.lan.springbootmall.model.pojo.Category;
 import com.lan.springbootmall.model.request.AddCategoryReq;
 import com.lan.springbootmall.model.vo.CategoryVO;
 
@@ -20,4 +21,6 @@ public interface CategoryService {
     PageInfo ListForAdmin(Integer pageNum, Integer pageSize);
 
     List<CategoryVO> getCategoryForCustomerList();
+
+    void update(Category updateCategory) throws MallException;
 }
