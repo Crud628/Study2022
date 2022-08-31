@@ -154,4 +154,17 @@
     from tb_mall_product
     where name = #{name, jdbcType = VARCHAR}
   </select>
+  <select id="batchUpdateShellStatus">
+    update tb_mall_product
+    set status = #{sellStatus}
+    where id in
+    <foreach collection="ids" close=")" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </select>
+  <select id="selectListFroAdmin" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from tb_mall_product
+    order by update_time DESC
+  </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.lan.springbootmall.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.lan.springbootmall.common.ApiRestResponse;
 import com.lan.springbootmall.common.Constants;
 import com.lan.springbootmall.exception.MallException;
@@ -105,4 +106,31 @@ public class ProductAdminController {
         productService.update(product);
         return ApiRestResponse.success();
     }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation("后台删除商品")
+    @PostMapping("/admin/product/delete")
+    private ApiRestResponse deleteProduct(@RequestBody Integer id) {
+        productService.delete(id);
+        return ApiRestResponse.success();
+    }
+
+    @ApiOperation("后台批量上下架")
+    @PostMapping("/admin/product/batch")
+    private ApiRestResponse batchUpdateShellStatus(@RequestParam Integer[] ids, @RequestParam Integer sellStatus) {
+        productService.batchUpdateShellStatus(ids, sellStatus);
+        return ApiRestResponse.success();
+    }
+
+    @ApiOperation("后台商品列表接口")
+    @PostMapping("/admin/product/list")
+    private ApiRestResponse list(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+        PageInfo pageInfo = productService.listForAdmin(pageNum, pageSize);
+        return ApiRestResponse.success(pageInfo);
+    }
+
 }
