@@ -5,6 +5,7 @@ import com.lan.springbootmall.exception.MallException;
 import com.lan.springbootmall.model.pojo.Category;
 import com.lan.springbootmall.model.request.AddCategoryReq;
 import com.lan.springbootmall.model.vo.CategoryVO;
+import springfox.documentation.annotations.Cacheable;
 
 import java.util.List;
 
@@ -17,6 +18,9 @@ public interface CategoryService {
     void add(AddCategoryReq addCategoryReq) throws MallException;
 
     void delete(Integer id) throws MallException;
+
+    @Cacheable(value = "listCategoryForCustomer")
+    List<CategoryVO> listCategoryForCustomer(Integer parentId);
 
     PageInfo ListForAdmin(Integer pageNum, Integer pageSize);
 

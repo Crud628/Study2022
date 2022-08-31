@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.lan.springbootmall.exception.MallException;
 import com.lan.springbootmall.model.pojo.Product;
 import com.lan.springbootmall.model.request.AddProductReq;
+import com.lan.springbootmall.model.request.ProductListReq;
 
 /**
  * @author Keason
@@ -22,4 +23,6 @@ public interface ProductService {
     PageInfo listForAdmin(Integer pageNum, Integer pageSize);
 
     Product detail(Integer id);
+
+    PageInfo list(ProductListReq productListReq);
 }

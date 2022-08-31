@@ -6,6 +6,7 @@ import com.lan.springbootmall.common.ApiRestResponse;
 import com.lan.springbootmall.exception.MallException;
 import com.lan.springbootmall.exception.MallExceptionEnum;
 import com.lan.springbootmall.model.dao.CategoryMapper;
+import com.lan.springbootmall.model.pojo.Cart;
 import com.lan.springbootmall.model.pojo.Category;
 import com.lan.springbootmall.model.request.AddCategoryReq;
 import com.lan.springbootmall.model.vo.CategoryVO;
@@ -75,6 +76,14 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Cacheable(value = "listCategoryForCustomer")
+    public List<CategoryVO> listCategoryForCustomer(Integer parentId) {
+        ArrayList<CategoryVO> categoryVOList = new ArrayList<>();
+        recursivelyFindCategories(categoryVOList, parentId);
+        return categoryVOList;
+    }
+
+    @Override
     public PageInfo ListForAdmin(Integer pageNum, Integer pageSize) {
         PageHelper.startPage(pageNum, pageSize,"type, order_num");
         List<Category> categoryList = categoryMapper.selectList();
@@ -103,7 +112,5 @@ public class CategoryServiceImpl implements CategoryService {
             }
         }
     }
-
-
 
 }
