@@ -1,7 +1,9 @@
 package com.lan.springbootmall.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.lan.springbootmall.common.ApiRestResponse;
 import com.lan.springbootmall.model.pojo.Product;
+import com.lan.springbootmall.model.request.ProductListReq;
 import com.lan.springbootmall.service.ProductService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +29,12 @@ public class ProductController {
     public ApiRestResponse detail(@RequestParam Integer id) {
         Product product = productService.detail(id);
         return ApiRestResponse.success(product);
+    }
+
+    @ApiOperation("商品详情")
+    @PostMapping("product/list")
+    public ApiRestResponse List(@RequestParam ProductListReq productListReq) {
+        PageInfo list = productService.list(productListReq);
+        return ApiRestResponse.success(list);
     }
 }

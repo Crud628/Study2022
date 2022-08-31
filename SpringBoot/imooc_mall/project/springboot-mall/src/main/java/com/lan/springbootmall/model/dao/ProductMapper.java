@@ -1,6 +1,7 @@
 package com.lan.springbootmall.model.dao;
 
 import com.lan.springbootmall.model.pojo.Product;
+import com.lan.springbootmall.model.query.ProductListQuery;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -40,4 +41,11 @@ public interface ProductMapper {
      * @return
      */
     List<Product> selectLsitForAdmin();
+
+    /**
+     *
+     * @param query
+     * @return
+     */
+    List<Product> selectList(@Param("query") ProductListQuery query);
 }
