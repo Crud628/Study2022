@@ -3,6 +3,8 @@ package com.lan.springbootmall.model.dao;
 import com.lan.springbootmall.model.pojo.OrderItem;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface OrderItemMapper {
     int deleteByPrimaryKey(Integer id);
@@ -16,4 +18,6 @@ public interface OrderItemMapper {
     int updateByPrimaryKeySelective(OrderItem record);
 
     int updateByPrimaryKey(OrderItem record);
+
+    List<OrderItem> selectByOrderNo(String orderNo);
 }

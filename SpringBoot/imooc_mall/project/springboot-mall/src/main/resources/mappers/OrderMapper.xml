@@ -8,7 +8,7 @@
     <result column="total_price" jdbcType="INTEGER" property="totalPrice" />
     <result column="receiver_name" jdbcType="VARCHAR" property="receiverName" />
     <result column="receiver_mobile" jdbcType="VARCHAR" property="receiverMobile" />
-    <result column="receiver_adress" jdbcType="VARCHAR" property="receiverAdress" />
+    <result column="receiver_address" jdbcType="VARCHAR" property="receiverAddress" />
     <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
     <result column="postage" jdbcType="INTEGER" property="postage" />
     <result column="payment_type" jdbcType="INTEGER" property="paymentType" />
@@ -19,7 +19,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, order_no, user_id, total_price, receiver_name, receiver_mobile, receiver_adress, 
+    id, order_no, user_id, total_price, receiver_name, receiver_mobile, receiver_address,
     order_status, postage, payment_type, delivery_time, pay_time, end_time, create_time, 
     update_time
   </sql>
@@ -36,13 +36,13 @@
   <insert id="insert" parameterType="com.lan.springbootmall.model.pojo.Order">
     insert into tb_mall_order (id, order_no, user_id, 
       total_price, receiver_name, receiver_mobile, 
-      receiver_adress, order_status, postage, 
+      receiver_address, order_status, postage,
       payment_type, delivery_time, pay_time, 
       end_time, create_time, update_time
       )
     values (#{id,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
       #{totalPrice,jdbcType=INTEGER}, #{receiverName,jdbcType=VARCHAR}, #{receiverMobile,jdbcType=VARCHAR}, 
-      #{receiverAdress,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{postage,jdbcType=INTEGER}, 
+      #{receiverAddress,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{postage,jdbcType=INTEGER},
       #{paymentType,jdbcType=INTEGER}, #{deliveryTime,jdbcType=TIMESTAMP}, #{payTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
@@ -68,8 +68,8 @@
       <if test="receiverMobile != null">
         receiver_mobile,
       </if>
-      <if test="receiverAdress != null">
-        receiver_adress,
+      <if test="receiverAddress != null">
+        receiver_address,
       </if>
       <if test="orderStatus != null">
         order_status,
@@ -115,8 +115,8 @@
       <if test="receiverMobile != null">
         #{receiverMobile,jdbcType=VARCHAR},
       </if>
-      <if test="receiverAdress != null">
-        #{receiverAdress,jdbcType=VARCHAR},
+      <if test="receiverAddress != null">
+        #{receiverAddress,jdbcType=VARCHAR},
       </if>
       <if test="orderStatus != null">
         #{orderStatus,jdbcType=INTEGER},
@@ -162,8 +162,8 @@
       <if test="receiverMobile != null">
         receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
       </if>
-      <if test="receiverAdress != null">
-        receiver_adress = #{receiverAdress,jdbcType=VARCHAR},
+      <if test="receiverAddress != null">
+        receiver_address = #{receiverAddress,jdbcType=VARCHAR},
       </if>
       <if test="orderStatus != null">
         order_status = #{orderStatus,jdbcType=INTEGER},
@@ -199,7 +199,7 @@
       total_price = #{totalPrice,jdbcType=INTEGER},
       receiver_name = #{receiverName,jdbcType=VARCHAR},
       receiver_mobile = #{receiverMobile,jdbcType=VARCHAR},
-      receiver_adress = #{receiverAdress,jdbcType=VARCHAR},
+      receiver_address = #{receiverAddress,jdbcType=VARCHAR},
       order_status = #{orderStatus,jdbcType=INTEGER},
       postage = #{postage,jdbcType=INTEGER},
       payment_type = #{paymentType,jdbcType=INTEGER},
@@ -210,4 +210,23 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByOrderNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_mall_order
+    where order_no = #{orderNo}
+  </select>
+  <select id="selectForCustomer" resultMap="BaseResultMap" parameterType="integer">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_mall_order
+    where user_id = #{userId}
+    order by create_time desc
+  </select>
+  <select id="selectAllForAdmin" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from tb_mall_order
+    order by create_time desc
+  </select>
 </mapper>

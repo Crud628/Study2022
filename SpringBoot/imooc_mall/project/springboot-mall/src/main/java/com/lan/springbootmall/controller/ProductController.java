@@ -7,14 +7,13 @@ import com.lan.springbootmall.model.request.ProductListReq;
 import com.lan.springbootmall.service.ProductService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 
- *Restthor Keason
+ *
+ * @author Keason
  * @Description:
  * @date 2022/8/31 12:23
  */

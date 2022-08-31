@@ -15,7 +15,7 @@ public class Order {
 
     private String receiverMobile;
 
-    private String receiverAdress;
+    private String receiverAddress;
 
     private Integer orderStatus;
 
@@ -81,12 +81,12 @@ public class Order {
         this.receiverMobile = receiverMobile == null ? null : receiverMobile.trim();
     }
 
-    public String getReceiverAdress() {
-        return receiverAdress;
+    public String getReceiverAddress() {
+        return receiverAddress;
     }
 
-    public void setReceiverAdress(String receiverAdress) {
-        this.receiverAdress = receiverAdress == null ? null : receiverAdress.trim();
+    public void setReceiverAddress(String receiverAddress) {
+        this.receiverAddress = receiverAddress;
     }
 
     public Integer getOrderStatus() {

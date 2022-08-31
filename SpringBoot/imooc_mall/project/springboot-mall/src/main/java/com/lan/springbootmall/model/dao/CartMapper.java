@@ -1,7 +1,11 @@
 package com.lan.springbootmall.model.dao;
 
 import com.lan.springbootmall.model.pojo.Cart;
+import com.lan.springbootmall.model.vo.CartVO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  *
@@ -19,4 +23,11 @@ public interface CartMapper {
     int updateByPrimaryKeySelective(Cart record);
 
     int updateByPrimaryKey(Cart record);
+
+    List<CartVO> selectList(@Param("userId") Integer userId);
+
+    Cart selectCartByUserIdAndProductId(@Param("userId") Integer userId, @Param("productId")Integer productId);
+
+    Integer selectOrNot(@Param("userId") Integer userId, @Param("productId") Integer productId,
+                        @Param("selected") Integer selected);
 }
