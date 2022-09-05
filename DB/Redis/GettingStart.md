@@ -285,6 +285,8 @@ getrange qingshan 0 8
 
 #### 1.  存储（实现）原理
 
+![image-20220905163302703](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905163302703.png)
+
  #####   ①  数据模型
 
 ​		 set hello word 为例，因为 Redis 是 KV 的数据库，它是通过 hashtable 实现的（我 们把这个叫做外层的哈希）。所以每个键值对都会有一个 dictEntry（源码位置：dict.h）， 里面指向了 key 和 value 的指针。next 指向下一个 dictEntry。
@@ -307,6 +309,8 @@ typedef struct dictEntry {
 ​		value 既不是直接作为字符串存储，也不是直接存储在 SDS 中，而是存储在 redisObject 中。实际上五种常用的数据类型的任何一种，都是通过 redisObject 来存储 的。
 
 ##### ②  redisObject
+
+![image-20220905163350312](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905163350312.png)
 
 redisObject 定义在 src/server.h 文件中。
 
@@ -565,3 +569,689 @@ typedef struct zlentry {
 #define ZIP_STR_32B (2 << 6) //长度小于等于 4294967295 字节
 
 ![image-20220904231812940](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220904231812940.png)
+
+问题：什么时候使用 ziplist 存储？
+
+当 hash 对象同时满足以下两个条件的时候，使用 ziplist 编码： 1）所有的键值对的健和值的字符串长度都小于等于 64byte（一个英文字母 一个字节）； 2）哈希对象保存的键值对数量小于 512 
+
+/* src/redis.conf 配置 */
+
+```shell
+hash-max-ziplist-value 64 // ziplist 中最大能存放的值长度
+hash-max-ziplist-entries 512 // ziplist 中最多能存放的 entry 节点数量
+```
+
+
+
+```C++
+/* 源码位置：t_hash.c ，当达字段个数超过阈值，使用 HT 作为编码 */
+if (hashTypeLength(o) > server.hash_max_ziplist_entries)
+    hashTypeConvert(o, OBJ_ENCODING_HT);
+    /*源码位置： t_hash.c，当字段值长度过大，转为 HT */
+    for (i = start; i <= end; i++) {
+    if (sdsEncodedObject(argv[i]) &&
+    sdslen(argv[i]->ptr) > server.hash_max_ziplist_value)
+    {
+        hashTypeConvert(o, OBJ_ENCODING_HT);
+        break;
+    }
+}
+```
+
+一个哈希对象超过配置的阈值（键和值的长度有>64byte，键值对个数>512 个）时， 会转换成哈希表（hashtable）。
+
+#### hashtable（dict）
+
+​		在 Redis 中，hashtable 被称为字典（dictionary），它是一个数组+链表的结构。 
+
+​		源码位置：dict.h 
+
+​		前面我们知道了，Redis 的 KV 结构是通过一个 dictEntry 来实现的。 
+
+​		Redis 又对 dictEntry 进行了多层的封装
+
+```C++
+typedef struct dictEntry {
+    void *key; /* key 关键字定义 */
+    union {
+        void *val; uint64_t u64; /* value 定义 */
+        int64_t s64; double d;
+    } v;
+    struct dictEntry *next; /* 指向下一个键值对节点 */
+} dictEntry
+```
+
+dictEntry 放到了 dictht（hashtable 里面）
+
+```C++
+/* This is our hash table structure. Every dictionary has two of this as we
+* implement incremental rehashing, for the old to the new table. */
+typedef struct dictht {
+    dictEntry **table; /* 哈希表数组 */
+    unsigned long size; /* 哈希表大小 */
+    unsigned long sizemask; /* 掩码大小，用于计算索引值。总是等于 size-1 */
+    unsigned long used; /* 已有节点数 */
+} dictht;
+```
+
+ht 放到了 dict 里面
+
+```c++
+typedef struct dict {
+	dictType *type; /* 字典类型 */
+    void *privdata; /* 私有数据 */
+    dictht ht[2]; /* 一个字典有两个哈希表 */
+    long rehashidx; /* rehash 索引 */
+    unsigned long iterators; /* 当前正在使用的迭代器数量 */
+} dic
+```
+
+从最底层到最高层 dictEntry——dictht——dict——OBJ_ENCODING_HT 
+
+总结：哈希的存储结构
+
+![image-20220905190924611](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905190924611.png)
+
+注意：dictht 后面是 NULL 说明第二个 ht 还没用到。dictEntry*后面是 NULL 说明没有 hash 到这个地址。dictEntry 后面是 NULL 说明没有发生哈希冲突。
+
+问题：为什么要定义两个哈希表呢？ht[2]
+
+redis 的 hash 默认使用的是 ht[0]，ht[1]不会初始化和分配空间。 
+
+哈希表 dictht 是用链地址法来解决碰撞问题的。在这种情况下，哈希表的性能取决 于它的大小（size 属性）和它所保存的节点的数量（used 属性）之间的比率：
+
+- 比率在 1:1 时（一个哈希表 ht 只存储一个节点 entry），哈希表的性能最好； 
+- 如果节点数量比哈希表的大小要大很多的话（这个比例用 ratio 表示，5 表示平均一个 ht 存储 5 个 entry），那么哈希表就会退化成多个链表，哈希表本身的性能 优势就不再存在。
+
+在这种情况下需要扩容。
+
+Redis 里面的这种操作叫做 rehash。 
+
+rehash 的步骤： 
+
+1、为字符 ht[1]哈希表分配空间，这个哈希表的空间大小取决于要执行的操作，以 及 ht[0]当前包含的键值对的数量。 扩展：ht[1]的大小为第一个大于等于 ht[0].used*2。 
+
+2、将所有的 ht[0]上的节点 rehash 到 ht[1]上，重新计算 hash 值和索引，然后放 入指定的位置。 
+
+3、当 ht[0]全部迁移到了 ht[1]之后，释放 ht[0]的空间，将 ht[1]设置为 ht[0]表， 并创建新的 ht[1]，为下次 rehash 做准备。
+
+问题：什么时候触发扩容？
+
+负载因子（源码位置：dict.c）：
+
+```C++
+static int dict_can_resize = 1;
+static unsigned int dict_force_resize_ratio = 5;
+```
+
+ratio = used / size，已使用节点与字典大小的比例 
+
+dict_can_resize 为 1 并且 dict_force_resize_ratio 已使用节点数和字典大小之间的 比率超过 1：5，触发扩
+
+扩容判断 _dictExpandIfNeeded（源码 dict.c）
+
+```C++
+if (d->ht[0].used >= d->ht[0].size &&
+(dict_can_resize || d->ht[0].used/d->ht[0].size > dict_force_resize_ratio))
+{
+	return dictExpand(d, d->ht[0].used*2);
+}
+return DICT_O
+```
+
+扩容方法 dictExpand（源码 dict.c）
+
+```C++
+static int dictExpand(dict *ht, unsigned long size) {
+dict n; /* the new hashtable */
+unsigned long realsize = _dictNextPower(size), i;
+/* the size is invalid if it is smaller than the number of
+* elements already inside the hashtable */
+if (ht->used > size)
+return DICT_ERR; _dictInit(&n, ht->type, ht->privdata);
+n.size = realsize;
+n.sizemask = realsize-1;
+n.table = calloc(realsize,sizeof(dictEntry*));
+/* Copy all the elements from the old to the new table:
+* note that if the old hash table is empty ht->size is zero, * so dictExpand just creates an hash table. */
+n.used = ht->used;
+for (i = 0; i < ht->size && ht->used > 0; i++) {
+dictEntry *he, *nextHe;
+if (ht->table[i] == NULL) continue;
+/* For each hash entry on this slot... */
+he = ht->table[i];
+while(he) {
+unsigned int h;
+nextHe = he->next;
+/* Get the new element index */
+h = dictHashKey(ht, he->key) & n.sizemask;
+he->next = n.table[h];
+n.table[h] = he;
+ht->used--;
+/* Pass to the next element
+he = nextHe;
+}
+}
+assert(ht->used == 0);
+free(ht->table);
+/* Remap the new hashtable in the old */
+*ht = n;
+return DICT_OK;
+}
+```
+
+缩容：server.c
+
+```c++
+int htNeedsResize(dict *dict) {
+long long size, used;
+size = dictSlots(dict);
+used = dictSize(dict);
+return (size > DICT_HT_INITIAL_SIZE &&
+(used*100/size < HASHTABLE_MIN_FILL));
+}
+```
+
+####  应用场景
+
+##### String
+
+String 可以做的事情，Hash 都可以做。
+
+##### 存储对象类型的数据
+
+比如对象或者一张表的数据，比 String 节省了更多 key 的空间，也更加便于集中管 理
+
+##### 购物车
+
+key：用户 id；field：商品 id；value：商品数量。
+
+ +1：hincr。-1：hdecr。删除：hdel。全选：hgetall。商品数：hlen。
+
+### List列表
+
+#### 存储类型
+
+![image-20220905205747511](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905205747511.png)
+
+#### 操作命令
+
+元素增减：
+
+```shell
+lpush queue a
+lpush queue b c
+rpush queue d e
+lpop queue
+rpop queue
+blpop queue
+brpop queu
+```
+
+取值
+
+```shell
+lindex queue 0
+lrange queue 0 -
+```
+
+![image-20220905210008959](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905210008959.png)
+
+#### 存储（实现）原理
+
+​		在早期的版本中，数据量较小时用 ziplist 存储，达到临界值时转换为 linkedlist 进 行存储，分别对应 OBJ_ENCODING_ZIPLIST 和 OBJ_ENCODING_LINKEDLIST 。 
+
+​		3.2 版本之后，统一用 quicklist 来存储。quicklist 存储了一个双向链表，每个节点 都是一个 ziplist
+
+#### quicklist
+
+quicklist（快速列表）是 ziplist 和 linkedlist 的结合体。 
+
+quicklist.h，head 和 tail 指向双向列表的表头和表
+
+```c++
+typedef struct quicklist {
+    quicklistNode *head; /* 指向双向列表的表头 */
+    quicklistNode *tail; /* 指向双向列表的表尾 */
+    unsigned long count; /* 所有的 ziplist 中一共存了多少个元素 */
+    unsigned long len; /* 双向链表的长度，node 的数量 */
+    int fill : 16; /* fill factor for individual nodes */
+    unsigned int compress : 16; /* 压缩深度，0：不压缩； */
+} quicklist;
+```
+
+redis.conf 相关参数：
+
+| 参数                            | 含义                                                         |
+| ------------------------------- | ------------------------------------------------------------ |
+| list-max-ziplist-size（fill）   | 正数表示单个 ziplist 最多所包含的 entry 个数。 负数代表单个 ziplist 的大小，默认 8k。 -1：4KB；-2：8KB；-3：16KB；-4：32KB；-5：64KB |
+| list-compress-depth（compress） | 压缩深度，默认是 0。 1：首尾的 ziplist 不压缩；2：首尾第一第二个 ziplist 不压缩，以此类推 |
+
+quicklistNode 中的*zl 指向一个 ziplist，一个 ziplist 可以存放多
+
+```c++
+typedef struct quicklistNode {
+    struct quicklistNode *prev; /* 前一个节点 */
+    struct quicklistNode *next; /* 后一个节点 */
+    unsigned char *zl; /* 指向实际的 ziplist */
+    unsigned int sz; /* 当前 ziplist 占用多少字节 */
+    unsigned int count : 16; /* 当前 ziplist 中存储了多少个元素，占 16bit（下同），最大 65536 个 */
+    unsigned int encoding : 2; /* 是否采用了 LZF 压缩算法压缩节点，1：RAW 2：LZF */
+    unsigned int container : 2; /* 2：ziplist，未来可能支持其他结构存储 */
+    unsigned int recompress : 1; /* 当前 ziplist 是不是已经被解压出来作临时使用 */
+    unsigned int attempted_compress : 1; /* 测试用 */
+    unsigned int extra : 10; /* 预留给未来使用 */
+} quicklistNode;
+```
+
+![image-20220905210732749](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905210732749.png)
+
+ziplist 的结构前面已经说过了，不再重复
+
+#### 应用场景
+
+##### 用户消息时间线 timeline
+
+因为 List 是有序的，可以用来做用户时间线
+
+##### 消息队列
+
+List 提供了两个阻塞的弹出操作：BLPOP/BRPOP，可以设置超时时间。 
+
+​		BLPOP：BLPOP key1 timeout 移出并获取列表的第一个元素， 如果列表没有元素 会阻塞列表直到等待超时或发现可弹出元素为止。 
+
+​		BRPOP：BRPOP key1 timeout 移出并获取列表的最后一个元素， 如果列表没有元 素会阻塞列表直到等待超时或发现可弹出元素为止。
+
+队列：先进先出：rpush blpop，左头右尾，右边进入队列，左边出队列。 
+
+栈：先进后出：rpush brpop
+
+### Set 集合
+
+#### 存储类型
+
+String 类型的无序集合，最大存储数量 2^32-1（40 亿左右）
+
+#### 操作命令
+
+添加一个或者多个元素
+
+```shell
+sadd myset a b c d e f g
+```
+
+获取所有元素
+
+```shell
+smembers myset
+```
+
+统计元素个数
+
+```shell
+scard myset
+```
+
+随机获取一个元素 
+
+```shell
+srandmember key 
+```
+
+随机弹出一个元素 
+```shell
+spop myset 
+```
+
+移除一个或者多个元素 
+```shell
+srem myset d e f 
+```
+
+查看元素是否存在
+```shell
+sismember myset a
+```
+
+#### 存储（实现）原理
+
+​		Redis 用 intset 或 hashtable 存储 set。如果元素都是整数类型，就用 inset 存储。 如果不是整数类型，就用 hashtable（数组+链表的存来储结构）。 
+
+​		问题：KV 怎么存储 set 的元素？key 就是元素的值，value 为 null。 
+
+​		如果元素个数超过 512 个，也会用 hashtable 存储
+
+> 配置文件 redis.conf
+>
+> set-max-intset-entries 51
+
+#### 应用场景
+
+##### 抽奖
+
+随机获取元素 spop myset
+
+##### 点赞、签到、打卡
+
+这条微博的 ID 是 t1001，用户 ID 是 u3001。 
+
+用 like:t1001 来维护 t1001 这条微博的所有点赞用户。 
+
+点赞了这条微博：sadd like:t1001 u3001 
+
+取消点赞：srem like:t1001 u3001 
+
+是否点赞：sismember like:t1001 u3001 
+
+点赞的所有用户：smembers like:t1001 
+
+点赞数：scard like:t1001 
+
+比关系型数据库简单许多。
+
+#####  商品标签
+
+用 tags:i5001 来维护商品所有的标签。
+
+sadd tags:i5001 画面清晰细腻 
+
+sadd tags:i5001 真彩清晰显示屏 
+
+sadd tags:i5001 流畅至极
+
+##### 商品筛选
+
+获取差集
+
+```shell
+sdiff set1 set2
+```
+
+获取交集（intersection ）
+
+```shell
+sinter set1 set2
+```
+
+获取并集
+
+```
+sunion set1 set2
+```
+
+#### 用户关注、推荐模型
+
+思考 
+
+1）相互关注？交集
+
+2）我关注的人也关注了他？ 交集
+
+3）可能认识的人？差集
+
+### ZSet 有序集
+
+#### 存储类型
+
+![image-20220905212204196](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905212204196.png)
+
+sorted set，有序的 set，每个元素有个 score。 
+
+score 相同时，按照 key 的 ASCII 码排序。 
+
+数据结构对比：
+
+| 数据结构 | 是否允许重复元素 | 是否有序 | 有序实现方式 |
+| -------- | ---------------- | -------- | ------------ |
+| 列表     | √                | √        | 索引下标     |
+| 集合     |                  |          | 无           |
+| 有序集合 |                  | √        | 分值score    |
+
+#### 操作命令
+
+添加元素
+
+```shell
+zadd myzset 10 java 20 php 30 ruby 40 cpp 50 python
+```
+
+获取全部元素
+
+```shell
+zrange myzset 0 -1 withscores
+zrevrange myzset 0 -1 withscore
+```
+
+根据分值区间获取元素
+
+```shell
+zrangebyscore myzset 20 30
+```
+
+移除元素 也可以根据 score rank 删
+
+```shell
+zrem myzset php cpp
+```
+
+统计元素个数
+
+```shell
+zcard myzse
+```
+
+分值递增
+
+```shell
+zincrby myzset 5 python
+```
+
+根据分值统计个数
+
+```shell
+zcount myzset 20 60
+```
+
+获取元素 rank
+
+```shell
+zrank myzset java
+```
+
+获取元素 score
+
+```shell
+zsocre myzset java
+```
+
+也有倒序的 rev 操作（reverse）
+
+#### 存储（实现）原理
+
+同时满足以下条件时使用 ziplist 编码
+
+- 元素数量小于 128 
+- 所有 member 的长度都小于 64 字节
+
+在 ziplist 的内部，按照 score 排序递增来存储。插入的时候要移动之后的数据。
+
+```shell
+对应 redis.conf 参数：
+zset-max-ziplist-entries 128
+zset-max-ziplist-value 64
+```
+
+超过阈值之后，使用 skiplist+dict 存储。 
+
+问题：什么是 skiplist？ 
+
+我们先来看一下有序链表：
+
+![image-20220905213244686](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905213244686.png)
+
+​		在这样一个链表中，如果我们要查找某个数据，那么需要从头开始逐个进行比较， 直到找到包含数据的那个节点，或者找到第一个比给定数据大的节点为止（没找到）。 也就是说，时间复杂度为 O(n)。同样，当我们要插入新数据的时候，也要经历同样的查 找过程，从而确定插入位置。
+
+​		而二分查找法只适用于有序数组，不适用于链表。 假如我们每相邻两个节点增加一个指针（或者理解为有三个元素进入了第二层）， 让指针指向下下个节点。
+
+![image-20220905213311360](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905213311360.png)
+
+这样所有新增加的指针连成了一个新的链表，但它包含的节点个数只有原来的一半 （上图中是 7, 19, 26）。在插入一个数据的时候，决定要放到那一层，取决于一个算法 （在 redis 中 t_zset.c 有一个 zslRandomLevel 这个方法）。
+
+​		现在当我们想查找数据的时候，可以先沿着这个新链表进行查找。当碰到比待查数 据大的节点时，再回到原来的链表中的下一层进行查找。比如，我们想查找 23，查找的路径是沿着下图中标红的指针所指向的方向进行的：
+
+![image-20220905213407565](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905213407565.png)
+
+1. 23 首先和 7 比较，再和 19 比较，比它们都大，继续向后比较。 
+2.  但 23 和 26 比较的时候，比 26 要小，因此回到下面的链表（原链表），与 22 比较。 
+3. 23 比 22 要大，沿下面的指针继续向后和 26 比较。23 比 26 小，说明待查数 据 23
+
+​		在这个查找过程中，由于新增加的指针，我们不再需要与链表中每个节点逐个进行 比较了。需要比较的节点数大概只有原来的一半。这就是跳跃表。
+
+为什么不用 AVL 树或者红黑树？因为 skiplist 更加简洁。
+
+源码：server.h
+
+```c++
+typedef struct zskiplistNode {
+sds ele; /* zset 的元素 */
+double score; /* 分值 */
+struct zskiplistNode *backward; /* 后退指针 */
+struct zskiplistLevel {
+struct zskiplistNode *forward; /* 前进指针，对应 level 的下一个节点 */
+unsigned long span; /* 从当前节点到下一个节点的跨度（跨越的节点数） */
+} level[]; /* 层 */
+} zskiplistNode;
+typedef struct zskiplist {
+struct zskiplistNode *header, *tail; /* 指向跳跃表的头结点和尾节点 */
+unsigned long length; /* 跳跃表的节点数 */
+int level; /* 最大的层数 */
+} zskiplist;
+typedef struct zset {
+dict *dict;
+zskiplist *zsl;
+} zset
+```
+
+随机获取层数的函数： 
+
+源码：t_zset.c
+
+```C++
+int zslRandomLevel(void) {
+int level = 1;
+while ((random()&0xFFFF) < (ZSKIPLIST_P * 0xFFFF))
+level += 1;
+return (level<ZSKIPLIST_MAXLEVEL) ? level : ZSKIPLIST_MAXLEVEL;
+}
+```
+
+#### 应用场景
+
+##### 排行榜
+
+id 为 6001 的新闻点击数加 1：zincrby hotNews:20190926 1 n6001 
+
+获取今天点击最多的 15 条：zrevrange hotNews:20190926 0 15 withscore
+
+### 其他数据结构简介
+
+https://redis.io/topics/data-types-intro
+
+#### BitMaps
+
+Bitmaps 是在字符串类型上面定义的位操作。一个字节由 8 个二进制位组成
+
+![image-20220905213815267](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905213815267.png)
+
+```shell
+set k1 a
+```
+
+获取 value 在 offset 处的值（a 对应的 ASCII 码是 97，转换为二进制数据是01100001)
+
+```shell
+setbit k1 6 1
+setbit k1 7 0
+get k1
+```
+
+统计二进制位中 1 的个数
+
+```shell
+bitcount k1
+```
+
+获取第一个 1 或者 0 的位
+
+```shell
+bitpos k1 1
+bitpos k1 0
+```
+
+BITOP 命令支持 AND 、 OR 、 NOT 、 XOR 这四种操作中的任意一种参数： 
+
+BITOP AND destkey srckey1 … srckeyN ，对一个或多个 key 求逻辑与，并将结果保存到 destkey 
+
+BITOP OR destkey srckey1 … srckeyN，对一个或多个 key 求逻辑或，并将结果保存到 destkey 
+
+BITOP XOR destkey srckey1 … srckeyN，对一个或多个 key 求逻辑异或，并将结果保存到 destkey 
+
+BITOP NOT destkey srckey，对给定 
+
+#### 应用场景： 
+
+用户访问统计 
+
+在线用户统计
+
+Hyperloglogs 
+
+Hyperloglogs：提供了一种不太准确的基数统计方法，比如统计网站的 UV，存在 一定的误差。
+
+Streams 
+
+5.0 推出的数据类型。支持多播的可持久化的消息队列，用于实现发布订阅功能，借 鉴了 kafka 的设计
+
+### 数据结构总结
+
+| 对象         | 对象type属性值 | type命令输出 | 底层的存储结构                                        | object encoding             |
+| ------------ | -------------- | ------------ | ----------------------------------------------------- | --------------------------- |
+| 字符串对象   | OBJ_STRING     | "string"     | OBJ_ENCODING_INT OBJ_ENCODING_EMBSTR OBJ_ENCODING_RAW | int embstr raw              |
+| 列表对象     | OBJ_LIST       | "list"       | OBJ_ENCODING_QUICKLIST                                | quicklist                   |
+| 哈希对象     | OBJ_HASH       | "hash"       | OBJ_ENCODING_ZIPLIST OBJ_ENCODING_HT                  | ziplist hashtable           |
+| 集合对象     | OBJ_SET        | "set"        | OBJ_ENCODING_INTSET OBJ_ENCODING_HT                   | intset hashtable            |
+| 有序集合对象 | OBJ_ZSET       | "zset"       | OBJ_ENCODING_ZIPLIST OBJ_ENCODING_SKIPLIST            | ziplist skiplist（包含 ht） |
+
+##### 编码转换总结
+
+![image-20220905215104375](https://typora-imagebed.oss-cn-beijing.aliyuncs.com/img/image-20220905215104375.png)
+
+应用场景总结 
+
+缓存——提升热点数据的访问速度 
+
+共享数据——数据的存储和共享的问题 
+
+全局 ID —— 分布式全局 ID 的生成方案（分库分表） 
+
+分布式锁——进程间共享数据的原子操作保证 
+
+在线用户统计和计数 
+
+队列、栈——跨进程的队列/栈 
+
+消息队列——异步解耦的消息机制 
+
+服务注册与发现 —— RPC 通信机制的服务协调中心（Dubbo 支持 Redis） 
+
+购物车 新浪/Twitter 用户消息时间线 
+
+抽奖逻辑（礼物、转发） 
+
+点赞、签到、打卡 
+
+商品标签 用户（商品）关注（推荐）模型 
+
+电商产品筛选 
+
+排行榜
