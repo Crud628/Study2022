@@ -43,5 +43,88 @@ Apache ZooKeeper is an effort to develop and maintain an open-source server whic
 
 配置中心
 
+## 二.  Zookeeper的安装与配置
 
+### Linux下的安装
+
+CentOS 7.6
+
+地址随着版本升级，会发生变化，最新地址从浏览器访问https://downloads.apache.org/zookeeper，然后找到对应版本的下载地址。
+
+以3.6.3版本为例：
+
+```shell
+wget https://downloads.apache.org/zookeeper/zookeeper-3.6.3/apache-zookeeper-3.6.3-bin.tar.gz
+tar zxvf apache-zookeeper-3.6.3-bin.tar.gz
+cd apache-zookeeper-3.6.3-bin
+cp conf/zoo_sample.cfg conf/zoo.cfg
+```
+
+### 启动
+
+```shell
+./bin/zkServer.sh start
+```
+
+### 停止
+
+```shell
+./bin/zkServer.sh stop
+```
+
+## Windows下的安装
+
+下载zookeeper
+
+网址https://zookeeper.apache.org/releases.html
+
+下载3.6.x
+
+解压后运行zkServer.cmd ，初次运行可能会报错，因为没有zoo.cfg配置文件
+
+将conf下的zoo_sample.cfg复制一份改名为zoo.cfg即可。
+
+配置文件含义：
+
+dataDir=./数据存储的目录
+
+clientPort=2181 zookeeper的端口号
+
+修改完成后启动zookeeper，运行zkServer.cmd
+
+### Mac下的安装
+
+zookeeper支持brew安装。
+
+```shell
+brew info zookeeper
+# 安装
+
+$brew install zookeeper
+启动服务：执行命令zkServer
+
+$zkServer 
+JMX enabled by default
+Using config: /usr/local/etc/zookeeper/zoo.cfg
+Usage: ./zkServer.sh {start|start-foreground|stop|restart|status|upgrade|print-cmd}
+
+$ zkServer status
+JMX enabled by default
+Using config: /usr/local/etc/zookeeper/zoo.cfg
+Error contacting service. It is probably not running.
+$ zkServer start
+JMX enabled by default
+Using config: /usr/local/etc/zookeeper/zoo.cfg
+Starting zookeeper ... STARTED
+```
+
+
+
+
+
+
+
+
+
+ 
 
