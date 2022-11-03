@@ -9,5 +9,7 @@ public class zkConstant {
 	
 	public static final String ZK_HOST = "192.168.253.128:2181";
 	
-	public static final Integer CONNECT_TIMEOUT = 6000;
+	public static final Integer CONNECT_TIMEOUT = 1000;
+	
+	public static final String PATH1 = "/my-first-node";
 }
