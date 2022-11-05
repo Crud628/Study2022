@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9d13b474-bb06-4304-b91b-dfd742dec23c" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="lagou-mybatis-plus" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:/maven_lagou/apache-maven-3.5.2" />
+        <option name="userSettingsFile" value="D:\maven_lagou\apache-maven-3.5.2\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="#JAVA_HOME" />
+  </component>
+  <component name="ProjectId" id="1jPAGgCdKnu02K0Lj2yFClKXQST" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/lagou_mybatis_plus_spring/src/main/resources" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\mp_code\lagou-mp-springboot\src\main\resources\mapper" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.lagou" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.lagou.pojo" />
+      <recent name="com.lagou.mapper" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\mp_code\lagou-mybatis-plus\lagou_mybatis_plus_spring\src\main\resources" />
+      <recent name="D:\mp_code\lagou-mp-springboot\src\main\resources" />
+      <recent name="D:\mp_code\lagou-mybatis-plus\lagou_mybatis_plus_spring\src\main\java" />
+      <recent name="D:\mp_code\lagou-mybatis-plus\lagou-mybatis-plus-spring\src\main\resources" />
+      <recent name="D:\mp_code\lagou-mybatis-plus\lagou-mybatis-plus-simple\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+    </option>
+  </component>
+  <component name="RunManager" selected="JUnit.LagouMpSpringbootApplicationTests.testSelect">
+    <configuration name="LagouMpSpringbootApplicationTests.testDeleteById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="lagou-mp-springboot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lagou.lagoumpspringboot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lagou.lagoumpspringboot" />
+      <option name="MAIN_CLASS_NAME" value="com.lagou.lagoumpspringboot.LagouMpSpringbootApplicationTests" />
+      <option name="METHOD_NAME" value="testDeleteById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LagouMpSpringbootApplicationTests.testFindAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="lagou-mp-springboot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lagou.lagoumpspringboot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lagou.lagoumpspringboot" />
+      <option name="MAIN_CLASS_NAME" value="com.lagou.lagoumpspringboot.LagouMpSpringbootApplicationTests" />
+      <option name="METHOD_NAME" value="testFindAll" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LagouMpSpringbootApplicationTests.testInsert" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="lagou-mp-springboot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lagou.lagoumpspringboot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lagou.lagoumpspringboot" />
+      <option name="MAIN_CLASS_NAME" value="com.lagou.lagoumpspringboot.LagouMpSpringbootApplicationTests" />
+      <option name="METHOD_NAME" value="testInsert" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LagouMpSpringbootApplicationTests.testSelect" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="lagou-mp-springboot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lagou.lagoumpspringboot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lagou.lagoumpspringboot" />
+      <option name="MAIN_CLASS_NAME" value="com.lagou.lagoumpspringboot.LagouMpSpringbootApplicationTests" />
+      <option name="METHOD_NAME" value="testSelect" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LagouMpSpringbootApplicationTests.testSelectById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="lagou-mp-springboot" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.lagou.lagoumpspringboot.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.lagou.lagoumpspringboot" />
+      <option name="MAIN_CLASS_NAME" value="com.lagou.lagoumpspringboot.LagouMpSpringbootApplicationTests" />
+      <option name="METHOD_NAME" value="testSelectById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LagouMpSpringbootApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="lagou-mp-springboot" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.lagou.LagouMpSpringbootApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.LagouMpSpringbootApplicationTests.testSelect" />
+        <item itemvalue="JUnit.LagouMpSpringbootApplicationTests.testSelectById" />
+        <item itemvalue="JUnit.LagouMpSpringbootApplicationTests.testDeleteById" />
+        <item itemvalue="JUnit.LagouMpSpringbootApplicationTests.testInsert" />
+        <item itemvalue="JUnit.LagouMpSpringbootApplicationTests.testFindAll" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\Szc.0713\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9d13b474-bb06-4304-b91b-dfd742dec23c" name="Default Changelist" comment="" />
+      <created>1603695258713</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1603695258713</updated>
+      <workItem from="1603695260150" duration="2812000" />
+      <workItem from="1603698100652" duration="18584000" />
+      <workItem from="1603786896242" duration="4775000" />
+      <workItem from="1603854427138" duration="18801000" />
+      <workItem from="1603943851629" duration="14638000" />
+      <workItem from="1604054788219" duration="172000" />
+      <workItem from="1604054980220" duration="89000" />
+      <workItem from="1604055082075" duration="1000" />
+      <workItem from="1604055085736" duration="15000" />
+      <workItem from="1604055119769" duration="146000" />
+      <workItem from="1604055284945" duration="214000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="452" y="107" key="#Inspections" timestamp="1604055464429">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="452" y="107" key="#Inspections/0.0.1920.1040@0.0.1920.1040" timestamp="1604055464429" />
+    <state x="530" y="316" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603697143523">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="530" y="316" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1603697143523" />
+    <state x="721" y="168" key="#com.intellij.ide.util.MemberChooser" timestamp="1604048860703">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="721" y="168" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1604048860703" />
+    <state x="611" y="369" width="698" height="323" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1603771249734">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="611" y="369" width="698" height="323" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040@0.0.1920.1040" timestamp="1603771249734" />
+    <state width="775" height="582" key="DebuggerActiveHint" timestamp="1603865860615">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="775" height="582" key="DebuggerActiveHint/0.0.1920.1040@0.0.1920.1040" timestamp="1603865860615" />
+    <state width="1850" height="218" key="GridCell.Tab.0.bottom" timestamp="1604052220204">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1850" height="218" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604052220204" />
+    <state width="1850" height="218" key="GridCell.Tab.0.center" timestamp="1604052220204">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1850" height="218" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604052220204" />
+    <state width="1850" height="218" key="GridCell.Tab.0.left" timestamp="1604052220204">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1850" height="218" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604052220204" />
+    <state width="1850" height="218" key="GridCell.Tab.0.right" timestamp="1604052220204">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1850" height="218" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604052220204" />
+    <state width="1850" height="218" key="GridCell.Tab.1.bottom" timestamp="1604052220205">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1850" height="218" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1604052220205" />
+    <state width="1850" height="218" key="GridCell.Tab.1.center" timestamp="1604052220205">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1850" height="218" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1604052220205" />
+    <state width="1850" height="218" key="GridCell.Tab.1.left" timestamp="1604052220205">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1850" height="218" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1604052220205" />
+    <state width="1850" height="218" key="GridCell.Tab.1.right" timestamp="1604052220205">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1850" height="218" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1604052220205" />
+    <state x="333" y="67" key="SettingsEditor" timestamp="1604055260208">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="333" y="67" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1604055260208" />
+    <state x="346" y="206" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1603864996067">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="346" y="206" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1920.1040@0.0.1920.1040" timestamp="1603864996067" />
+    <state x="322" y="267" key="new project wizard" timestamp="1603771106008">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="322" y="267" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1603771106008" />
+    <state x="532" y="234" width="840" height="1034" key="run.anything.popup" timestamp="1603778913224">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="532" y="234" width="840" height="1034" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1603778913224" />
+    <state x="559" y="58" width="840" height="1034" key="search.everywhere.popup" timestamp="1604043212166">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="559" y="58" width="840" height="1034" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1604043212166" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../lagou-mp-springboot/src/test/java/com/lagou/lagoumpspringboot/LagouMpSpringbootApplicationTests.java</url>
+          <line>175</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/../lagou-mp-springboot/src/test/java/com/lagou/lagoumpspringboot/TestAR.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="20" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="tableInfo" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>
