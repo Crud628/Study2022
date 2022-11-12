@@ -2,6 +2,7 @@
 *.class
 *.classpath
 *.project
+*.bkp
 
 # Log file
 *.log
