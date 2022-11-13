@@ -4,6 +4,7 @@
 .idea
 *.class
 *.zip
+*.iml
 .idea
 /out/
 /target/
