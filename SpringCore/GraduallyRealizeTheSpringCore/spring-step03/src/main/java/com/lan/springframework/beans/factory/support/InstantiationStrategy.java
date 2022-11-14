@@ -9,6 +9,7 @@ import com.lan.springframework.beans.factory.config.BeanDefinition;
  * 
  * @author Keason
  * @description Bean 实例化策略接口
+ * @since 0.03
  */
 public interface InstantiationStrategy {
 

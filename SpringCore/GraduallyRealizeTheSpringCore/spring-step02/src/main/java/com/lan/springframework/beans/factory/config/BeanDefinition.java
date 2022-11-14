@@ -3,7 +3,8 @@ package com.lan.springframework.beans.factory.config;
  * @author Keason
  * @version 创建时间：2022年11月12日 下午6:23:41
  * @TODO 定义 Bean 实例信息
- *  只注册类信息、不直接注册实例化信息  Object->Class
+ *  0.02 只注册类信息、不直接注册实例化信息  Object->Class
+ *  @since 0.01
  */
 public class BeanDefinition {
 	/**

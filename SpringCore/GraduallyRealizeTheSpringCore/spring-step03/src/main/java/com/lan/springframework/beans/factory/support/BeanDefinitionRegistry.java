@@ -6,6 +6,7 @@ import com.lan.springframework.beans.factory.config.BeanDefinition;
  * 
  * @author Keason
  * @description Bean 定义注册接口
+ * @since 0.02
  */
 public interface BeanDefinitionRegistry {
 

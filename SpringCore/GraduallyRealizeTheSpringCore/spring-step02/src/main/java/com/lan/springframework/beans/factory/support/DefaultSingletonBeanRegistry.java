@@ -9,7 +9,7 @@ import com.lan.springframework.beans.factory.config.SingletonBeanRegistry;
  * @author Keason
  * @version 创建时间：2022年11月12日 下午6:49:31
  * @TODO 通用的注册表实现
- * 
+ * @since 0.02
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 

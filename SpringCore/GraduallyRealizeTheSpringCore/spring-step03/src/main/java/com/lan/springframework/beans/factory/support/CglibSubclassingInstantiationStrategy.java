@@ -12,6 +12,7 @@ import net.sf.cglib.proxy.NoOp;
  * 
  * @author Keason
  * @description Cglib 实例化策略
+ * @since 0.03
  */
 public class CglibSubclassingInstantiationStrategy implements InstantiationStrategy{
 

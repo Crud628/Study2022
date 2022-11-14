@@ -3,7 +3,8 @@ package com.lan.springframework.beans.factory;
  * @author Keason
  * @version 创建时间：2022年11月12日 下午6:48:06
  * @TODO 定义 Bean 工厂接口
- * 
+ * 提升为接口，交由具体子类实现
+ * @since 0.01
  */
 public interface BeanFactory {
 

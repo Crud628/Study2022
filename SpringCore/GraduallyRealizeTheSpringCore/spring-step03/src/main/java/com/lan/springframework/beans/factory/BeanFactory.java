@@ -6,6 +6,7 @@ import com.lan.springframework.beans.BeansException;
  * 
  * @author Keason
  * @description 定义 Bean 工厂接口
+ * @since 0.01
  */
 public interface BeanFactory {
 

@@ -3,7 +3,7 @@ package com.lan.springframework.beans.factory;
  * @author Keason
  * @version 创建时间：2022年11月12日 下午6:45:27
  * @TODO 定义 Bean 异常
- * 
+ * @since 0.02
  */
 public class BeansException extends RuntimeException{
 

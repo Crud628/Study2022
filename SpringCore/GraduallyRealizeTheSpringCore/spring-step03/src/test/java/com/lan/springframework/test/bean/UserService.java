@@ -4,6 +4,7 @@ package com.lan.springframework.test.bean;
  * 
  * @author Keason
  * @description 模拟含有入参构造函数的用户 Bean 对象
+ * @since 0.01
  */
 public class UserService {
 

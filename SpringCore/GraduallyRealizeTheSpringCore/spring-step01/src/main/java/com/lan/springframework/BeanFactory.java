@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version 创建时间：2022年11月12日 下午1:16:26
  * @TODO 简单的 Bean 工厂
  * 用于生成和使用的Bean工厂
- * 
+ * @since 0.01
  */
 public class BeanFactory {
 	

@@ -7,7 +7,7 @@ import com.lan.springframework.beans.factory.config.BeanDefinition;
  * @author Keason
  * @version 创建时间：2022年11月12日 下午6:55:45
  * @TODO 实现默认bean创建的抽象bean工厂超类
- * 
+ * @since 0.02
  */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory{
 

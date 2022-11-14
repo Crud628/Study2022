@@ -6,7 +6,7 @@ import com.lan.springframework.beans.factory.config.BeanDefinition;
  * @author Keason
  * @version 创建时间：2022年11月12日 下午6:39:04
  * @TODO Bean 定义注册接口
- * 
+ * @since 0.02
  */
 public interface BeanDefinitionRegistry {
 	/**

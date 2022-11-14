@@ -3,7 +3,7 @@ package com.lan.springframework.beans.factory.config;
  * @author Keason
  * @version 创建时间：2022年11月12日 下午6:33:04
  * @TODO 单例 Bean 注册表
- * 
+ * @since 0.02
  */
 public interface SingletonBeanRegistry {
 	/**

@@ -10,6 +10,7 @@ import com.lan.springframework.beans.factory.config.BeanDefinition;
  * 
  * @author Keason
  * @description JDK实例化策略
+ * @since 0.03
  */
 public class SimpleInstantiationStrategy implements InstantiationStrategy {
 

@@ -10,7 +10,7 @@ import com.lan.springframework.beans.factory.config.BeanDefinition;
  * @author Keason
  * @version 创建时间：2022年11月12日 下午6:54:18
  * @TODO
- * 
+ * @since 0.02
  */
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry{
 

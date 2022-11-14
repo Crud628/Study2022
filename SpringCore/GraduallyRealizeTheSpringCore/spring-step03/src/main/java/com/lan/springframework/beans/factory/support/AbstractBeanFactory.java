@@ -8,6 +8,7 @@ import com.lan.springframework.beans.factory.config.BeanDefinition;
  * 
  * @author Keason
  * @description 抽象的 Bean 工厂基类，定义模板方法
+ * @since 0.02
  */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements BeanFactory {
 

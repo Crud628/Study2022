@@ -9,6 +9,7 @@ import com.lan.springframework.beans.factory.config.SingletonBeanRegistry;
  * 
  * @author Keason
  * @description 通用的注册表实现
+ * @since 0.02
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 

@@ -9,6 +9,7 @@ import com.lan.springframework.beans.factory.config.BeanDefinition;
  * 
  * @author Keason
  * @description 实现默认bean创建的抽象bean工厂超类
+ * @since 0.02
  */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory{
 
