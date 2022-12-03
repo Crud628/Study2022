@@ -33,7 +33,10 @@ hs_err_pid*
 /nb*
 /release.properties
 /target
-
+*/target
+*/.idea
+*/.project
+*/.settings
 # These are needed if running in IDE without properties set
 /ibderby
 derby.log
