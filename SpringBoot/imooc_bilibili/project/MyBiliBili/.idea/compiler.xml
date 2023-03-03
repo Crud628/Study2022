@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="MyBiliBili-api" />
+        <module name="MyBiliBili-dao" />
+        <module name="MyBiliBili-service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="MyBiliBili-api" options="-parameters" />
+      <module name="MyBiliBili-dao" options="-parameters" />
+      <module name="MyBiliBili-service" options="-parameters" />
+    </option>
+  </component>
+</project>
