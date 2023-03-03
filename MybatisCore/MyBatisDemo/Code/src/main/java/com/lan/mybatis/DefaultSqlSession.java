@@ -6,6 +6,12 @@ import java.sql.*;
 import java.util.Date;
 import java.util.*;
 
+/**
+ * DefaultSqlSession默认会话实现类简化了ORM框架处理流程。该实现类包装了元素的提取、数据库的连接、JDBC的执行、
+ * 并且完成了SQL语句执行时入参、出参的处理，最终返回查询结果。
+ * @author Keason
+ *
+ */
 public class DefaultSqlSession implements SqlSession{
 
     /**
@@ -164,11 +170,13 @@ public class DefaultSqlSession implements SqlSession{
     }
 
     /**
-     *
-     * @param resultSet
-     * @param clazz
-     * @return
-     * @param <T>
+     * 包装了日常使用JDBC操作数据库执行SQL语句，并对返回的数据进行处理的逻辑。
+     * 这里用到了一些反射的技术，将查询的数据封装到Java对象中并返回。
+     * 
+     * @param resultSet 结果集
+     * @param clazz 对象字节
+     * @return 返回结果
+     * @param <T> 对象类型
      */
     private <T> List<T> resultSet2Obj(ResultSet resultSet, Class<?> clazz) {
         List<T> list = new ArrayList<>();

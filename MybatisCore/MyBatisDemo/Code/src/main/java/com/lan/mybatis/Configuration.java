@@ -7,8 +7,19 @@ import java.util.Map;
  * 配置项
  */
 public class Configuration {
+	/**
+	 * DB链接
+	 */
     protected Connection connection;
+    
+    /**
+     * 
+     */
     protected Map<String, String> dataSource;
+    
+    /**
+     * 
+     */
     protected Map<String, XNode> mapperElement;
 
     public void setConnection(Connection connection) {

@@ -1,11 +1,5 @@
 package com.lan.mybatis;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-import org.xml.sax.InputSource;
-
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,10 +10,18 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import java.io.Reader;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+import org.xml.sax.InputSource;
 
 /**
  * 会话工厂建造者
+ * 对数据库进行操作的核心类
+ * 包括  处理工厂
+ * 		解析文件
+ * 		获取会话等
  */
 public class SqlSessionFactoryBuilder {
     public DefaultSqlSessionFactory build(Reader reader) {
@@ -34,7 +36,8 @@ public class SqlSessionFactoryBuilder {
         return null;
     }
 
-    private Configuration parseConfiguration(Element root) {
+    @SuppressWarnings("unchecked")
+	private Configuration parseConfiguration(Element root) {
         Configuration configuration = new Configuration();
         configuration.setDataSource(dataSource(root.selectNodes("//dataSource")));
         configuration.setConnection(connection(configuration.dataSource));
