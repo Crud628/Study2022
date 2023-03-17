@@ -25,4 +25,90 @@
                         #{createTime}
             )
     </insert>
+    <insert id="addUserInfo" parameterType="com.lan.mybilibili.domain.UserInfo">
+        insert into
+            t_user_info(
+            userId,
+            nick,
+            avatar,
+            sign,
+            gender,
+            birth,
+            createTime
+        )values (
+                    #{userId},
+                    #{nick},
+                    #{avatar},
+                    #{sign},
+                    #{gender},
+                    #{birth},
+                    #{createTime}
+                )
+    </insert>
+    <select id="getRefreshTokenByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select
+            refreshToken
+        from
+            t_refresh_token
+        where
+            userId = #{userId}
+    </select>
+
+    <select id="getUserById" parameterType="java.lang.Long" resultType="com.lan.mybilibili.domain.User">
+        select
+            *
+        from
+            t_user
+        where
+            id = #{id}
+    </select>
+
+    <select id="getUserInfoByUserId" parameterType="java.lang.Long" resultType="com.lan.mybilibili.domain.UserInfo">
+        select
+            *
+        from
+            t_user_info
+        where
+            userId = #{userId}
+    </select>
+    <update id="updateUsers" parameterType="com.lan.mybilibili.domain.User">
+        update
+        t_user
+        set
+        <if test="phone != null and phone != '' ">
+            phone = #{phone},
+        </if>
+        <if test="email != null and email != '' ">
+            email = #{email},
+        </if>
+        <if test="password != null and password != '' ">
+            password = #{password},
+        </if>
+        updateTime = #{updateTime}
+        where
+        id = #{id}
+    </update>
+    <update id="updateUserInfos" parameterType="com.lan.mybilibili.domain.UserInfo">
+        update
+        t_user_info
+        set
+        <if test="nick != null and nick != '' ">
+            nick = #{nick},
+        </if>
+        <if test="avatar != null">
+            avatar = #{avatar},
+        </if>
+        <if test="sign != null">
+            sign = #{sign},
+        </if>
+        <if test="birth != null and birth != '' ">
+            birth = #{birth},
+        </if>
+        <if test="gender != null and gender != '' ">
+            gender = #{gender},
+        </if>
+        updateTime = #{updateTime}
+        where
+        userId = #{userId}
+    </update>
 </mapper>

@@ -18,6 +18,8 @@ public class User {
 
     private Date updateTime;
 
+    private UserInfo userInfo;
+
     public Long getId() {
         return id;
     }
@@ -72,5 +74,13 @@ public class User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 }
