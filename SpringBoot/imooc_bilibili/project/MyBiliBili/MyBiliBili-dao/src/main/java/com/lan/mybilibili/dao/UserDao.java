@@ -4,6 +4,9 @@ import com.lan.mybilibili.domain.User;
 import com.lan.mybilibili.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Set;
+
 @Mapper
 public interface UserDao {
 
@@ -22,4 +25,6 @@ public interface UserDao {
     void updateUsers(User user);
 
     void updateUserInfos(UserInfo userInfo);
+
+    List<UserInfo> getUserInfoByUserIds(Set<Long> userIdList);
 }
