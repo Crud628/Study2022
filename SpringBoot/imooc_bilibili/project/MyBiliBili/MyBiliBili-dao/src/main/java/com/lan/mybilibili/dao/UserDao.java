@@ -1,10 +1,15 @@
 package com.lan.mybilibili.dao;
 
+import com.alibaba.fastjson.JSONObject;
+import com.lan.mybilibili.domain.RefreshTokenDetail;
 import com.lan.mybilibili.domain.User;
 import com.lan.mybilibili.domain.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Mapper
@@ -14,17 +19,36 @@ public interface UserDao {
 
     Integer addUser(User user);
 
-    void addUserInfo(UserInfo userInfo);
+    Integer addUserInfo(UserInfo userInfo);
 
-    String getRefreshTokenByUserId(Long userId);
-
-    User getUserById(Long userId);
+    User getUserById(Long id);
 
     UserInfo getUserInfoByUserId(Long userId);
 
-    void updateUsers(User user);
+    Integer updateUsers(User user);
 
-    void updateUserInfos(UserInfo userInfo);
+    User getUserByPhoneOrEmail(@Param("phone") String phone, @Param("email") String email);
+
+    Integer updateUserInfos(UserInfo userInfo);
 
     List<UserInfo> getUserInfoByUserIds(Set<Long> userIdList);
+
+    Integer pageCountUserInfos(Map<String, Object> params);
+
+    List<UserInfo> pageListUserInfos(JSONObject params);
+
+    Integer deleteRefreshToken(@Param("refreshToken") String refreshToken,
+                               @Param("userId") Long userId);
+
+    Integer addRefreshToken(@Param("refreshToken")String refreshToken,
+                            @Param("userId") Long userId,
+                            @Param("createTime") Date createTime);
+
+    RefreshTokenDetail getRefreshTokenDetail(String refreshToken);
+
+    List<UserInfo> batchGetUserInfoByUserIds(Set<Long> userIdList);
+
+    String getRefreshTokenByUserId(Long userId);
+
+    Integer deleteRefreshTokenByUserId(Long userId);
 }

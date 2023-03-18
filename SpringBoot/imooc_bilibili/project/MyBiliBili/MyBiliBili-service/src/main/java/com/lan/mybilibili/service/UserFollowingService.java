@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserFollowingService {
 
+
     @Autowired
     private UserFollowingDao userFollowingDao;
 
@@ -29,8 +30,13 @@ public class UserFollowingService {
     @Autowired
     private UserService userService;
 
+    /**
+     * 关注用户
+     * @param userFollowing
+     */
     @Transactional
     public void addUserFollowings(UserFollowing userFollowing) {
+        // 分组ID
         Long groupId = userFollowing.getGroupId();
         if(groupId == null){
             FollowingGroup followingGroup = followingGroupService.getByType(UserConstant.USER_FOLLOWING_GROUP_TYPE_DEFAULT);
@@ -41,6 +47,7 @@ public class UserFollowingService {
                 throw new ConditionException("关注分组不存在！");
             }
         }
+        // 关注用户存在判断
         Long followingId = userFollowing.getFollowingId();
         User user = userService.getUserById(followingId);
         if(user == null){
@@ -51,10 +58,14 @@ public class UserFollowingService {
         userFollowingDao.addUserFollowing(userFollowing);
     }
 
-    // 第一步：获取关注的用户列表
-    // 第二步：根据关注用户的id查询关注用户的基本信息
-    // 第三步：将关注用户按关注分组进行分类
+    /**
+     * 获取用户关注列表
+     *
+     * @param userId
+     * @return
+     */
     public List<FollowingGroup> getUserFollowings(Long userId){
+        // 第一步：获取关注的用户列表
         List<UserFollowing> list = userFollowingDao.getUserFollowings(userId);
         Set<Long> followingIdSet = list.stream().map(UserFollowing::getFollowingId).collect(Collectors.toSet());
         List<UserInfo> userInfoList = new ArrayList<>();
@@ -68,12 +79,14 @@ public class UserFollowingService {
                 }
             }
         }
+        // 第二步：根据关注用户的id查询关注用户的基本信息
         List<FollowingGroup> groupList = followingGroupService.getByUserId(userId);
         FollowingGroup allGroup = new FollowingGroup();
         allGroup.setName(UserConstant.USER_FOLLOWING_GROUP_ALL_NAME);
         allGroup.setFollowingUserInfoList(userInfoList);
         List<FollowingGroup> result = new ArrayList<>();
         result.add(allGroup);
+        // 第三步：将关注用户按关注分组进行分类
         for(FollowingGroup group : groupList){
             List<UserInfo> infoList = new ArrayList<>();
             for(UserFollowing userFollowing : list){
@@ -88,16 +101,20 @@ public class UserFollowingService {
         return result;
     }
 
-    // 第一步：获取当前用户的粉丝列表
-    // 第二步：根据粉丝的用户id查询基本信息
-    // 第三步：查询当前用户是否已经关注该粉丝
+    /**
+     *
+     * @param userId
+     * @return
+     */
     public List<UserFollowing> getUserFans(Long userId){
+        // 第一步：获取当前用户的粉丝列表
         List<UserFollowing> fanList = userFollowingDao.getUserFans(userId);
         Set<Long> fanIdSet = fanList.stream().map(UserFollowing::getUserId).collect(Collectors.toSet());
         List<UserInfo> userInfoList = new ArrayList<>();
         if(fanIdSet.size() > 0){
             userInfoList = userService.getUserInfoByUserIds(fanIdSet);
         }
+        // 第二步：根据粉丝的用户id查询基本信息
         List<UserFollowing> followingList = userFollowingDao.getUserFollowings(userId);
         for(UserFollowing fan : fanList){
             for(UserInfo userInfo : userInfoList){
@@ -106,6 +123,7 @@ public class UserFollowingService {
                     fan.setUserInfo(userInfo);
                 }
             }
+            // 第三步：查询当前用户是否已经关注该粉丝
             for(UserFollowing following : followingList){
                 if(following.getFollowingId().equals(fan.getUserId())){
                     fan.getUserInfo().setFollowed(true);
@@ -115,6 +133,11 @@ public class UserFollowingService {
         return fanList;
     }
 
+    /**
+     *
+     * @param followingGroup
+     * @return
+     */
     public Long addUserFollowingGroups(FollowingGroup followingGroup) {
         followingGroup.setCreateTime(new Date());
         followingGroup.setType(UserConstant.USER_FOLLOWING_GROUP_TYPE_USER);
@@ -122,10 +145,21 @@ public class UserFollowingService {
         return followingGroup.getId();
     }
 
+    /**
+     *
+     * @param userId
+     * @return
+     */
     public List<FollowingGroup> getUserFollowingGroups(Long userId) {
         return followingGroupService.getUserFollowingGroups(userId);
     }
 
+    /**
+     *
+     * @param userInfoList
+     * @param userId
+     * @return
+     */
     public List<UserInfo> checkFollowingStatus(List<UserInfo> userInfoList, Long userId) {
         List<UserFollowing> userFollowingList = userFollowingDao.getUserFollowings(userId);
         for(UserInfo userInfo : userInfoList){

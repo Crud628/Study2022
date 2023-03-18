@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * 关注分组service
+ */
 @Service
 public class FollowingGroupService {
 

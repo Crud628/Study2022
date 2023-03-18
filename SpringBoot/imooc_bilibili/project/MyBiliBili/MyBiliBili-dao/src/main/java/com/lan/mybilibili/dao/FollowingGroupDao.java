@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 关注分组Dao
+ */
 @Mapper
 public interface FollowingGroupDao {
 

@@ -3,20 +3,44 @@ package com.lan.mybilibili.domain;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 关注分组
+ */
 public class FollowingGroup {
 
+    /**
+     * ID
+     */
     private Long id;
 
+    /**
+     * 用户ID
+     */
     private Long userId;
 
+    /**
+     * 分组名字
+     */
     private String name;
 
+    /**
+     * 分组类型
+     */
     private String type;
 
+    /**
+     * 创建时间
+     */
     private Date createTime;
 
+    /**
+     * 创建日期
+     */
     private Date updateTime;
 
+    /**
+     * 分组下用户信息
+     */
     private List<UserInfo> followingUserInfoList;
 
     public Long getId() {
