@@ -14,6 +14,8 @@ public class WikiApplication {
         SpringApplication app = new SpringApplication(WikiApplication.class);
         Environment env = app.run(args).getEnvironment();
         LOG.info("启动成功！！");
+        // 端口需要定义，默认的取不到端口号
+        // banner 网站：http://patorjk.com/software/taag/
         LOG.info("地址：\thttp://127.0.0.1:{}", env.getProperty("server.port"));
     }
 
