@@ -16,6 +16,7 @@ public class WikiApplication {
         LOG.info("启动成功！！");
         // 端口需要定义，默认的取不到端口号
         // banner 网站：http://patorjk.com/software/taag/
+        // yaml 自动转换：https://toyaml.com/index.html
         LOG.info("地址：\thttp://127.0.0.1:{}", env.getProperty("server.port"));
     }
 
