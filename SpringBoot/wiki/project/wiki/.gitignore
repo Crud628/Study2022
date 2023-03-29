@@ -22,7 +22,7 @@
 #idea file
 /.idea/
 /target/
-
+/node_modules/
 #Eclipse file
 /.setting/
 
