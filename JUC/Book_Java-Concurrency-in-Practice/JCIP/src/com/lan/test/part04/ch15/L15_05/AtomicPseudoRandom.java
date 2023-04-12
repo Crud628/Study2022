@@ -2,8 +2,8 @@ package com.lan.test.part04.ch15.L15_05;
 
 import java.util.concurrent.atomic.*;
 
-import com.lan.test.PseudoRandom;
 import com.lan.test.annotations.ThreadSafe;
+import com.lan.test.common.PseudoRandom;
 
 
 /**

@@ -2,8 +2,8 @@ package com.lan.test.part04.ch15.L15_04;
 
 import java.util.concurrent.locks.*;
 
-import com.lan.test.PseudoRandom;
 import com.lan.test.annotations.*;
+import com.lan.test.common.PseudoRandom;
 
 /**
  * ReentrantLockPseudoRandom
