@@ -50,6 +50,19 @@ import java.lang.annotation.Target;
  * <li>
  * <code>class-name.class</code> : The Class object for the specified class should be used as the lock object.
  * </li>
+ * @GuardedBy（lock）表示只有在持有了某个特定的锁时才能访问这个域或方法。
+ * 参数lock表示在访问被标注的域或方法时需要持有的锁。
+ * lock的可能取值包括：
+ * ·@GuardedBy（“this”），表示在包含对象上的内置锁（被标注的方法或域是该对象的成员）。
+ *
+ * ·@GuardedBy（“fieldName”），表示与fieldName引用的对象相关联的锁，
+ *    可以是一个隐式锁（对于不引用一个Lock的域），也可以是一个显式锁（对于引用了一个Lock的域）。
+ * 
+ * ·@GuardedBy（“Class Name.fieldName”），类似于@GuardedBy（“fieldName”），
+ *    但指向在另一个类的静态域中持有的锁对象。·@GuardedBy（“methodName（）”），是指通过调用命名方法返回的锁对象。
+ * 
+ * ·@GuardedBy（“ClassName.class”），是指命名类的类字面量对象。
+ * 
  */
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)

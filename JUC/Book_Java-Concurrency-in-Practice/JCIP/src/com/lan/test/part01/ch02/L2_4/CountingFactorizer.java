@@ -10,12 +10,17 @@ import com.lan.test.annotations.*;
  * CountingFactorizer
  *
  * Servlet that counts requests using AtomicLong
+ * 使用AtomicLong类型的变量来统计已处理请求的数量
  *
  * @author Brian Goetz and Tim Peierls
  */
 @ThreadSafe
 public class CountingFactorizer extends GenericServlet implements Servlet {
-    private final AtomicLong count = new AtomicLong(0);
+
+    private static final long serialVersionUID = 7810637665413464301L;
+
+    // 原子性的
+	private final AtomicLong count = new AtomicLong(0);
 
     public long getCount() { return count.get(); }
 

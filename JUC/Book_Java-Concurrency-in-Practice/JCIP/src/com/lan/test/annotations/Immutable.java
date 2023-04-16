@@ -27,6 +27,8 @@ import java.lang.annotation.*;
  * <p>
  * Immutable objects are inherently thread-safe; they may be passed between threads or
  * published without synchronization.
+ * 
+ * 表示类不可变，包含了ThreaSafe的意思
  */
 @Documented
 @Target(ElementType.TYPE)

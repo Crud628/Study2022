@@ -13,7 +13,9 @@ import com.lan.test.annotations.ThreadSafe;
 @ThreadSafe
 public class Sequence {
     @GuardedBy("this") private int nextValue;
-
+    /**
+     * 返回一个唯一的数值
+     */
     public synchronized int getNext() {
         return nextValue++;
     }

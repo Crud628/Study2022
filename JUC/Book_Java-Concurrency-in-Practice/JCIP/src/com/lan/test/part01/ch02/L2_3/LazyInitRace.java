@@ -6,6 +6,7 @@ import com.lan.test.annotations.*;
  * LazyInitRace
  *
  * Race condition in lazy initialization
+ * 延迟初始化的静态条件（不要这样做）
  *
  * @author Brian Goetz and Tim Peierls
  */

@@ -7,13 +7,12 @@ import com.lan.test.annotations.NotThreadSafe;
  *
  * @author Brian Goetz and Tim Peierls
  */
-
 @NotThreadSafe
 public class UnsafeSequence {
     private int value;
 
     /**
-     * Returns a unique value.
+     * 返回一个唯一的数值
      */
     public int getNext() {
         return value++;

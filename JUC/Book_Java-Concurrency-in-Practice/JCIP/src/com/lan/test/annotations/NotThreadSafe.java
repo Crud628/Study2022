@@ -18,6 +18,7 @@ import java.lang.annotation.*;
  * that might otherwise be assumed to be thread-safe, despite the fact that it is a bad
  * idea to assume a class is thread-safe without good reason.
  * @see ThreadSafe
+ * 是可选的，如果一个类没有标注ThreadSafe，则表示是NotThreadSafe的
  */
 @Documented
 @Target(ElementType.TYPE)
