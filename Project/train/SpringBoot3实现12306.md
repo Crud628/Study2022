@@ -211,19 +211,51 @@ Exception in thread "main" java.lang.NullPointerException: Cannot invoke "java.u
 
 # 第4章 新版Spring Cloud Alibaba与`Springbooot`搭建后端架构
 
+
+
 ## 4.1 手把手快速完成微服务架构的搭建
+
+如果依赖下载很慢，可到QQ群里下载settings.xml，配好了阿里镜像
 
 ## 4.2 项目初始化配置
 
+修改encode
+修改auto import
+热部署配置：增加依赖会不生效
+
 ## 4.3 实现代码关联Gt远程仓库
+
+实际工作中，每完成一个小功能，就提交一次，写清楚注释，下班前，代码全部push到远程仓库，前提是代码不要报错
+
+代码一定要放远程仓库，防止电脑损坏丢失。一般公司会用gitlib自己搭仓库
+
+远程仓库需要配置ssh
+远程地址选择ssh（选择https需要用户名密码）
 
 ## 4.6 使用HTTP Client完成测过接口
 
+如果依赖下载很慢，可到QQ群里下载settings.xml，配好了阿里镜像
+
 ## 4.7 增加AOP打印请求参数和返回结果
+
+pom依赖和LogAspect代码可到源码中复制
 
 ## 4.8 详解项目中增加通用模块
 
+增加common模块，用于放公共代码
+
+增加公共配置文件，必须放在/config/目录下，否则无效（不是覆盖关系）；优先读公共配置下的配置
+
 ## 4.9 详解项目中增加网关模块
+
+网关模块非常重要，可以用来做路由转发，权限校验等。
+
+gateway是基于netty的，只有一个依赖，不能引入common，也不能引入starter-web
+
+生产发布时，只有gateway需要配置外网IP，其它模块都只开放内网访问，外网访问不了，保证应用安全
+
+要输出请求日志需要增加启动参数：
+-Dreactor.netty.http.server.accessLogEnabled=true
 
 ## 4.10 详解本地数据库的准备工作
 
