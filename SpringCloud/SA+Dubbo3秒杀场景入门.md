@@ -1253,9 +1253,11 @@ Handler Mapping->Web Handler<->filter<->Proxy filter
 
 ## 十.  订单中心
 
-## 十一.  架构分析
+## 十一.  Dubbo3高级特性及SpringCloud-Alibaba整合实战
 
-## 十二.  总结
+## 十二.  SpringCloud-Alibaba分布式微服务架构整合以及K8S扩展
+
+## 十三.  课程总结
 
 
 
