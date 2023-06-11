@@ -364,15 +364,112 @@ UUID会影响索引效率，因为UUID是无序的，用一堆无序的ID来构�
 
 # 第5章 使用Vue3 + Vue CLI 实现系统前端模块的搭建
 
-5.2本地环境准备
-5.3 手把手创建基于Vue CLI的web模块
-5.4 web模块集成Ant DesignVue
-5.5 短信验证码登录流程讲解
-5.6 注册登录二合一界面开发
-5.7 发送短信验证码接口开发
-5.9 集成Axios完成登录功能
-510 增加Axios拦截器配置
-511 Vue CLI多环境配置
+## 5.2本地环境准备
+
+vue cli 安装：https://cli.vuejs.org/zh/guide/installation.html
+
+流程：安装node得到npm，使用npm安装vue cli(脚手架)，使用vue cli创建项目
+
+Vue CLI版本和Node版本有关，用Node V12只能下载到Vue CLI V4.X，必须用Node V18才能下载到Vue CLI V5.X
+
+IDEA支持配置多个版本的Node，类似配置多个JDK
+
+```shell
+# 使用淘宝镜像：
+npm config set registry https://registry.npm.taobao.org
+# 查看当前镜像使用的地址
+npm config get registry
+```
+
+## 5.3 手把手创建基于Vue CLI的web模块
+
+https://cli.vuejs.org/zh/guide/installation.html
+
+安装/更新vue cli，如果失败，则以管理员运行
+npm install/update 得到的版本和node版本有关，比如本地 Node v10.16.0，安装后的vuecli版本是4.5.15
+
+安装结果有warn不要紧，最终能执行vue --version即可
+
+npm install -g @vue/cli@5.0.8，得到目前最新版本@vue/cli 5.0.8
+创建项目：vue create web，对应的vue版本是3.2.13
+
+## 5.4 web模块集成Ant DesignVue
+
+https://www.antdv.com/docs/vue/getting-started-cn
+
+Ant Design Vue是阿里团队开源的基于Vue的UI组件
+
+UI组件有很多可选，一种是选择基于CSS的，如：Bootstrap，适合各种前端框架。一种是选择基于Vue的UI组件，只能用于Vue框架
+
+Element(由饿了吗团队开源)在Vue2时是最热门框架，Vue3出来后，没有第一时间跟着升级，后来才出了基于Vue3的Element Plus
+
+```shell
+cd web
+npm i --save ant-design-vue
+得到："ant-design-vue": "^3.2.15"
+```
+
+package.json，类似maven的pom.xml，用于引入依赖
+package-lock.json，用于锁定小版本号
+
+- 锁定当前依赖的版本
+- 锁定当前依赖的第三方依赖的版本
+
+## 5.5 短信验证码登录流程讲解
+
+![](https://img.mukewang.com/wiki/640bfc3c0994a1fb07522184.jpg)
+
+![](https://img.mukewang.com/wiki/640bfc7609fdf6fb12562184.jpg)
+
+## 5.6 注册登录二合一界面开发
+
+对于router配置，大型项目，页面多，80%页面不常用，可以用懒加载的方式，减少编译后文件的大小，提高初始访问速度；小型目，页面少，可以用静态导入的方式，对编译后的文件大小影响不大
+
+一个vue页面，由三个部分组件，都不是必须的
+template
+script
+style
+
+vue就两种绑定写法：
+：绑定属性
+@ 绑定事件
+
+双向绑定：修改变量值，则元素展现的值也会变化；反过来，用户操作元素，则script里的变量也会发生变化
+
+vue文件即可以是一个页面，也可以是一个组件
+
+vue3两种声明响应式变量：reactive, ref
+
+eslint用于规范代码，是一把双刃剑，初学者不熟悉，用起来会一步一个坑
+
+响应式框架元老：bootstrap，很多UI框架都是参照它来做的，Ant Design Vue的栅格系统也是参照它来写的
+
+## 5.7 发送短信验证码接口开发
+
+日志小技巧：在各种分支，循环，关键业务点，都打上日志，从日志就能看出代码执行到哪里了，前后端都一样
+
+## 5.9 集成Axios完成登录功能
+
+跨域：前后端不在同一个域。IP一样，端口不一样，也算跨域。跨域是前后端分离不可避免的问题
+
+安装axios：npm install axios
+
+## 5.10 增加Axios拦截器配置
+
+可通过axios拦截器打印请求日志和返回结果，也可以加入统一参数，比如单点登录token，也可以统一处理某个错误返回码
+
+## 5.11 Vue CLI多环境配置
+
+在web根目录下增加文件 .env.xxx，xxx表是不同的环境
+
+启动命令里增加 --mode xxx，就启动xxx环境的配置
+
+增加多环境变量：
+NODE_ENV是内置变量
+自定义变量用“VUE_APP_”开头
+
+使用变量：
+process.env. xxx
 
 # 第6章 实现JWT单点登录功能
 
